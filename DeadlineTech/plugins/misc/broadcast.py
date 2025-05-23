@@ -1,5 +1,3 @@
-# Powered By Team DeadlineTech
-
 import time
 import asyncio
 
@@ -20,11 +18,13 @@ from DeadlineTech.utils.decorators.language import language
 from DeadlineTech.utils.formatters import alpha_to_int
 from config import adminlist
 
+
 REQUEST_LIMIT = 50
 BATCH_SIZE = 500
 BATCH_DELAY = 2
 MAX_RETRIES = 2
 
+# Global broadcast result tracker
 last_broadcast_result = {}
 
 
@@ -36,20 +36,16 @@ async def broadcast_command(client, message, _):
 
     # Determine target audience
     if "-all" in command_text:
-        user_docs = await get_served_users()
-        chat_docs = await get_served_chats()
-        target_users = [doc["user_id"] for doc in user_docs]
-        target_chats = [doc["chat_id"] for doc in chat_docs]
+        target_users = await get_served_users()
+        target_chats = await get_served_chats()
     elif "-users" in command_text:
-        user_docs = await get_served_users()
-        target_users = [doc["user_id"] for doc in user_docs]
+        target_users = await get_served_users()
         target_chats = []
     elif "-chats" in command_text:
-        chat_docs = await get_served_chats()
-        target_chats = [doc["chat_id"] for doc in chat_docs]
         target_users = []
+        target_chats = await get_served_chats()
     else:
-        return await message.reply_text("Please use a valid tag: -all, -users, -chats")
+        return await message.reply_text("Please use a valid tag: `-all`, `-users`, `-chats`.")
 
     if not target_chats and not target_users:
         return await message.reply_text("No targets found for broadcast.")
@@ -79,7 +75,6 @@ async def broadcast_command(client, message, _):
 
     async def send_with_retries(chat_id):
         nonlocal sent_count, failed_count, sent_to_users, sent_to_chats
-
         for attempt in range(MAX_RETRIES):
             try:
                 if isinstance(content_message, str):
@@ -87,9 +82,10 @@ async def broadcast_command(client, message, _):
                 else:
                     if mode == "forward":
                         await app.forward_messages(
-                            chat_id=chat_id,
-                            from_chat_id=message.chat.id,
-                            message_ids=content_message.id
+                            chat_id,
+                            message.chat.id,
+                            content_message.id,
+                            as_copy=False
                         )
                     else:
                         await content_message.copy(chat_id)
@@ -121,7 +117,7 @@ async def broadcast_command(client, message, _):
 
             percent = round((sent_count + failed_count) / total_targets * 100, 2)
             elapsed = time.time() - start_time
-            eta = (elapsed / (sent_count + failed_count)) * (total_targets - (sent_count + failed_count)) if (sent_count + failed_count) else 0
+            eta = (elapsed / (sent_count + failed_count)) * (total_targets - (sent_count + failed_count)) if sent_count + failed_count > 0 else 0
             eta_formatted = f"{int(eta//60)}m {int(eta%60)}s"
 
             progress_bar = f"[{'█' * int(percent//5)}{'░' * (20-int(percent//5))}]"
@@ -138,7 +134,7 @@ async def broadcast_command(client, message, _):
     total_time = round(time.time() - start_time, 2)
 
     final_summary = (
-        f"<b>✅ Broadcast Report 📢</b>\n\n"
+        f"<b>✅Broadcast Report📢</b>\n\n"
         f"Mode: <code>{mode}</code>\n"
         f"Total Targets: <code>{total_targets}</code>\n"
         f"Successful: <code>{sent_count}</code> 🟢\n"
@@ -150,6 +146,34 @@ async def broadcast_command(client, message, _):
 
     await status_msg.edit_text(final_summary)
 
+    # Save result for stats command
+    last_broadcast_result.update({
+        "mode": mode,
+        "total": total_targets,
+        "sent": sent_count,
+        "sent_users": sent_to_users,
+        "sent_chats": sent_to_chats,
+        "failed": failed_count,
+        "time": total_time
+    })
+
+
+@app.on_message(filters.command("broadcaststats") & SUDOERS)
+async def broadcast_stats(_, message):
+    if not last_broadcast_result:
+        return await message.reply_text("No broadcast run yet.")
+
+    res = last_broadcast_result
+    await message.reply_text(
+        f"<b>📜Last Broadcast Report:</b>\n\n"
+        f"Mode: <code>{res['mode']}</code>\n"
+        f"Total Targets: <code>{res['total']}</code>\n"
+        f"Successful: <code>{res['sent']}</code> 🟢\n"
+        f"  ├─ Users: <code>{res['sent_users']}</code>\n"
+        f"  └─ Chats: <code>{res['sent_chats']}</code>\n"
+        f"Failed: <code>{res['failed']}</code> 🔴\n"
+        f"Time Taken: <code>{res['time']}</code> seconds ⏰"
+    )
 
 
 async def auto_clean():
