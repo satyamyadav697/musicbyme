@@ -1,6 +1,6 @@
 from pyrogram import filters
-from pyrogram.types import Message
-from unidecode import unidecode
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from datetime import datetime
 
 from DeadlineTech import app
 from DeadlineTech.misc import SUDOERS
@@ -11,66 +11,65 @@ from DeadlineTech.utils.database import (
     remove_active_video_chat,
 )
 
-
-@app.on_message(filters.command(["activevc", "activevoice"]) & SUDOERS)
-async def activevc(_, message: Message):
-    mystic = await message.reply_text("» ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ʟɪsᴛ...")
-    served_chats = await get_active_chats()
-    text = ""
-    j = 0
-    for x in served_chats:
-        try:
-            title = (await app.get_chat(x)).title
-        except:
-            await remove_active_chat(x)
-            continue
-        try:
-            if (await app.get_chat(x)).username:
-                user = (await app.get_chat(x)).username
-                text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
-            else:
-                text += (
-                    f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
-                )
-            j += 1
-        except:
-            continue
-    if not text:
-        await mystic.edit_text(f"» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ᴏɴ {app.mention}.")
-    else:
-        await mystic.edit_text(
-            f"<b>» ʟɪsᴛ ᴏғ ᴄᴜʀʀᴇɴᴛʟʏ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs :</b>\n\n{text}",
-            disable_web_page_preview=True,
-        )
+CALLS_REFRESH = "calls_refresh"
 
 
-@app.on_message(filters.command(["activev", "activevideo"]) & SUDOERS)
-async def activevi_(_, message: Message):
-    mystic = await message.reply_text("» ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs ʟɪsᴛ...")
-    served_chats = await get_active_video_chats()
-    text = ""
-    j = 0
-    for x in served_chats:
+async def get_call_stats():
+    voice = await get_active_chats()
+    video = await get_active_video_chats()
+
+    # Cleanup invalid chats
+    for cid in voice:
         try:
-            title = (await app.get_chat(x)).title
+            await app.get_chat(cid)
         except:
-            await remove_active_video_chat(x)
-            continue
+            await remove_active_chat(cid)
+
+    for cid in video:
         try:
-            if (await app.get_chat(x)).username:
-                user = (await app.get_chat(x)).username
-                text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
-            else:
-                text += (
-                    f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
-                )
-            j += 1
+            await app.get_chat(cid)
         except:
-            continue
-    if not text:
-        await mystic.edit_text(f"» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs ᴏɴ {app.mention}.")
-    else:
-        await mystic.edit_text(
-            f"<b>» ʟɪsᴛ ᴏғ ᴄᴜʀʀᴇɴᴛʟʏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs :</b>\n\n{text}",
-            disable_web_page_preview=True,
-        )
+            await remove_active_video_chat(cid)
+
+    return len(voice), len(video)
+
+
+def get_current_time():
+    return datetime.now().strftime("%d %b %Y • %I:%M %p")
+
+
+@app.on_message(filters.command(["activecalls", "acalls"]) & SUDOERS)
+async def active_calls(_, message: Message):
+    voice_count, video_count = await get_call_stats()
+    total = voice_count + video_count
+
+    text = (
+        "🎧 <b>Active Call Stats</b>\n\n"
+        f"🔊 Voice Chats : <code>{voice_count}</code>\n"
+        f"🎥 Video Chats : <code>{video_count}</code>\n"
+        f"📞 Total Calls : <code>{total}</code>\n\n"
+        f"🕒 <i>Updated on:</i> <code>{get_current_time()}</code>"
+    )
+
+    button = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("🔄 Refresh", callback_data=CALLS_REFRESH)]]
+    )
+
+    await message.reply_text(text, reply_markup=button)
+
+
+@app.on_callback_query(filters.regex(CALLS_REFRESH) & SUDOERS)
+async def refresh_calls(_, query: CallbackQuery):
+    voice_count, video_count = await get_call_stats()
+    total = voice_count + video_count
+
+    text = (
+        "🎧 <b>Active Call Stats</b>\n\n"
+        f"🔊 Voice Chats : <code>{voice_count}</code>\n"
+        f"🎥 Video Chats : <code>{video_count}</code>\n"
+        f"📞 Total Calls : <code>{total}</code>\n\n"
+        f"🕒 <i>Updated on:</i> <code>{get_current_time()}</code>"
+    )
+
+    await query.message.edit_text(text, reply_markup=query.message.reply_markup)
+    await query.answer("Updated!")
