@@ -159,8 +159,8 @@ STRING_SESSION=YOUR_STRING_SESSION
 ## ⚡ Credits
 
 - Base Framework: [Anon Music](https://github.com/AnonymousX1025/AnonXMusic)
-- Enhanced by: [DeadlineTech Team](https://telegram.me/DeadlineTechTeam)
-- Lead Devs: [@DeadlineTechOwner](https://telegram.me/DeadlineTechOwner) 
+- Enhanced by: [Team DeadlineTech](https://telegram.me/DeadlineTechTeam)
+- Lead Dev: [@DeadlineTechOwner](https://telegram.me/DeadlineTechOwner) 
 
 ---
 
