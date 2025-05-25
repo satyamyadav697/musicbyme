@@ -21,7 +21,7 @@ from DeadlineTech.utils.formatters import alpha_to_int
 from config import adminlist
 
 REQUEST_LIMIT = 50
-BATCH_SIZE = 500
+BATCH_SIZE = 50
 BATCH_DELAY = 2
 MAX_RETRIES = 2
 
