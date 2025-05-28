@@ -16,6 +16,7 @@ DeadlineTech Music
     <a href="https://www.python.org">
         <img src="https://img.shields.io/badge/Made%20With-Python-306998?style=for-the-badge&logo=python&logoColor=yellow" />
     </a>
+<img src="https://img.shields.io/github/license/deadlineTech/music?style=for-the-badge" alt="LICENSE">
 </p>
 
 ---
