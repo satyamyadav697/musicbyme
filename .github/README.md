@@ -17,6 +17,8 @@ DeadlineTech Music
         <img src="https://img.shields.io/badge/Made%20With-Python-306998?style=for-the-badge&logo=python&logoColor=yellow" />
     </a>
 <img src="https://img.shields.io/github/license/deadlineTech/music?style=for-the-badge" alt="LICENSE">
+
+<img src="http://ForTheBadge.com/images/badges/built-with-love.svg" alt="built-with-love">
 </p>
 
 ---
@@ -174,7 +176,4 @@ See <a href="https://github.com/deadlineTech/Music/blob/main/LICENSE">LICENSE</a
 
 <p align="center">
   - <b> sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ <a href="https://github.com/TeamYukki">[ᴛᴇᴀᴍ ʏᴜᴋᴋɪ]</a> ғᴏʀ <a href="https://github.com/TeamYukki/YukkiMusicBot">[ʏᴜᴋᴋɪ ᴍᴜsɪᴄ ʙᴏᴛ]</a></b>
-<br>
-<br>
-<img src="http://ForTheBadge.com/images/badges/built-with-love.svg" alt="built-with-love">
 </p>
