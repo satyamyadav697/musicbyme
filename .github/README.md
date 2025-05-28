@@ -167,7 +167,7 @@ STRING_SESSION=YOUR_STRING_SESSION
 ## 📄 License
 
 > Licensed under the <b>MIT License</b>.
-See <a href="https://github.com/deadlineTech/Music/blob/master/LICENSE">LICENSE</a> for details.
+See <a href="https://github.com/deadlineTech/Music/blob/main/LICENSE">LICENSE</a> for details.
 
 ---
 
