@@ -173,5 +173,7 @@ See <a href="https://github.com/deadlineTech/Music/blob/main/LICENSE">LICENSE</a
 ---
 
 <p align="center">
-  <b>Thanks for visiting 🍂❣️</b>
+  - <b> _sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ [ᴛᴇᴀᴍ ʏᴜᴋᴋɪ](https://github.com/TeamYukki) ғᴏʀ [ʏᴜᴋᴋɪ ᴍᴜsɪᴄ ʙᴏᴛ](https://github.com/TeamYukki/YukkiMusicBot)_</b>
+
+<img src="http://ForTheBadge.com/images/badges/built-with-love.svg" alt="built-with-love">
 </p>
