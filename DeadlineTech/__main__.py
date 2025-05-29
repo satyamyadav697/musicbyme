@@ -23,37 +23,37 @@ async def init():
         and not config.STRING4
         and not config.STRING5
      ):
-        LOGGER(__name__).error("Assistant client variables not defined, exiting...")
-        exit()
+        LOGGER(__name__).error("Assistant client variables not defined, exiting...")
+        exit()
 
-    await sudo()
+    await sudo()
 
-    try:
-        users = await get_gbanned()
-        for user_id in users:
-            BANNED_USERS.add(user_id)
-        users = await get_banned_users()
-        for user_id in users:
-            BANNED_USERS.add(user_id)
-    except:
-        pass
+    try:
+        users = await get_gbanned()
+        for user_id in users:
+            BANNED_USERS.add(user_id)
+        users = await get_banned_users()
+        for user_id in users:
+            BANNED_USERS.add(user_id)
+    except:
+        pass
 
-    await app.start()
+    await app.start()
 
-  
-    asyncio.create_task(scheduled_auto_leave())
 
-    for all_module in ALL_MODULES:
-        importlib.import_module("DeadlineTech.plugins" + all_module)
-    LOGGER("DeadlineTech.plugins").info("Successfully Imported Modules...")
+    asyncio.create_task(scheduled_auto_leave())
 
-    await userbot.start()
-    await Anony.start()
+    for all_module in ALL_MODULES:
+        importlib.import_module("DeadlineTech.plugins" + all_module)
+    LOGGER("DeadlineTech.plugins").info("Successfully Imported Modules...")
 
-    try:
-        await Anony.stream_call("https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4")
-    except NoActiveGroupCall:
-        LOGGER("DeadlineTech").error(
+    await userbot.start()
+    await Anony.start()
+
+    try:
+        await Anony.stream_call("https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4")
+    except NoActiveGroupCall:
+    LOGGER("DeadlineTech").error(
             "Please turn on the videochat of your log group/channel.\n\nStopping Bot..."
         )
         exit()
