@@ -22,7 +22,7 @@ from DeadlineTech.utils.formatters import alpha_to_int
 from config import adminlist
 
 # Constants
-BATCH_SIZE = 100
+BATCH_SIZE = 500
 DELAY_BETWEEN_TASKS = 0.5
 DELAY_BETWEEN_BATCHES = 2
 MAX_RETRIES = 2
