@@ -1,25 +1,29 @@
-# Powered By Team DeadlineTech
+# auto_leave.py
 
 import asyncio
 from datetime import datetime, timedelta
 
-from pyrogram import filters
 from pyrogram.enums import ChatType
-from pyrogram.types import Message
 
 import config
-from DeadlineTech import app
-from DeadlineTech.utils.database import get_client, is_active_chat
-from DeadlineTech.misc import SUDOERS
+from AnonXMusic import app
+from AnonXMusic.utils.database import get_client, is_active_chat
 
+# Enable or disable auto leave
 AUTO_LEAVE_ENABLED = True
 
+# Calculate seconds until next 4 AM
 def seconds_until_4am():
     now = datetime.now()
     target = now.replace(hour=4, minute=0, second=0, microsecond=0)
     if now >= target:
         target += timedelta(days=1)
     return (target - now).total_seconds()
+
+# Command to toggle auto-leave (optional)
+from pyrogram import filters
+from pyrogram.types import Message
+from AnonXMusic.misc import SUDOERS
 
 @app.on_message(filters.command("auto_leave") & SUDOERS)
 async def toggle_auto_leave(_, message: Message):
@@ -28,13 +32,18 @@ async def toggle_auto_leave(_, message: Message):
     state = "enabled" if AUTO_LEAVE_ENABLED else "disabled"
     await message.reply_text(f"✅ Auto Leave has been <b>{state}</b>.")
 
+# Main scheduled task
 async def scheduled_auto_leave():
-    from DeadlineTech.core.userbot import assistants
+    from AnonXMusic.core.userbot import assistants
+
+    print("[AutoLeave] Background task started.")
     while True:
         sleep_time = seconds_until_4am()
+        print(f"[AutoLeave] Sleeping for {sleep_time} seconds until 4 AM.")
         await asyncio.sleep(sleep_time)
-        
+
         if not AUTO_LEAVE_ENABLED:
+            print("[AutoLeave] Skipped — feature disabled.")
             continue
 
         for num in assistants:
@@ -50,12 +59,20 @@ async def scheduled_auto_leave():
                             if not await is_active_chat(chat.id):
                                 try:
                                     await client.leave_chat(chat.id)
+                                    print(f"[AutoLeave] {client.me.first_name} left: {chat.title} ({chat.id})")
                                     left += 1
-                                except:
-                                    continue
+                                except Exception as e:
+                                    print(f"[AutoLeave Error] Could not leave {chat.id}: {e}")
             except Exception as e:
-                print(f"[AutoLeave Error] {e}")
-                continue
+                print(f"[AutoLeave Error] Assistant {num} failed: {e}")
 
-# Start Task
-asyncio.create_task(scheduled_auto_leave())
+# Start the task after bot startup
+from pyrogram import idle
+
+async def main():
+    await app.start()
+    asyncio.create_task(scheduled_auto_leave())
+    await idle()
+
+if __name__ == "__main__":
+    asyncio.run(main())
