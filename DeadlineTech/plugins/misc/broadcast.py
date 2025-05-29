@@ -25,7 +25,7 @@ from config import adminlist
 BATCH_SIZE = 500
 DELAY_BETWEEN_TASKS = 0.5
 DELAY_BETWEEN_BATCHES = 2
-MAX_RETRIES = 2
+MAX_RETRIES = 1
 
 @app.on_message(filters.command("broadcast") & SUDOERS)
 @language
