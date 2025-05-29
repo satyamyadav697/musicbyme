@@ -179,7 +179,8 @@ docker run --env-file .env -dit --restart unless-stopped --name dt-bot music
   docker stop dt-bot && docker rm dt-bot
   git pull origin master
   docker build -t music .
-  docker run -it --name dt-bot music
+  docker run --env-file .env -it --name dt-bot music
+
   ```
 </details>
 
