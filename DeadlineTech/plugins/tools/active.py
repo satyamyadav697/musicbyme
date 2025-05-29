@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from datetime import datetime
-from zoneinfo import ZoneInfo  # Python 3.9+
+from zoneinfo import ZoneInfo
 
 from DeadlineTech import app
 from DeadlineTech.misc import SUDOERS
@@ -12,27 +12,32 @@ from DeadlineTech.utils.database import (
     remove_active_video_chat,
 )
 
-CALLS_REFRESH = "calls_refresh"
-TIMEZONE = "Asia/Kolkata"  # Change this to your preferred timezone
+CALLS_CLOSE = "calls_close"
+TIMEZONE = "Asia/Kolkata"
 
 
-async def get_call_stats():
-    voice = await get_active_chats()
-    video = await get_active_video_chats()
+async def get_call_stats_detailed():
+    voice_chats = []
+    video_chats = []
 
-    for cid in voice:
+    voice_ids = await get_active_chats()
+    video_ids = await get_active_video_chats()
+
+    for cid in voice_ids:
         try:
-            await app.get_chat(cid)
+            chat = await app.get_chat(cid)
+            voice_chats.append(f"• <b>{chat.title}</b> [`{cid}`]")
         except:
             await remove_active_chat(cid)
 
-    for cid in video:
+    for cid in video_ids:
         try:
-            await app.get_chat(cid)
+            chat = await app.get_chat(cid)
+            video_chats.append(f"• <b>{chat.title}</b> [`{cid}`]")
         except:
             await remove_active_video_chat(cid)
 
-    return len(voice), len(video)
+    return voice_chats, video_chats
 
 
 def get_current_time():
@@ -40,36 +45,69 @@ def get_current_time():
     return now.strftime("%d %b %Y • %I:%M %p")
 
 
-def generate_text(voice_count, video_count):
+def generate_detailed_text(voice_list, video_list):
+    voice_count = len(voice_list)
+    video_count = len(video_list)
+    total = voice_count + video_count
+
+    text = (
+        "📊 <b>Real-Time Call Activity</b>\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🔊 <b>Voice Chats:</b> <code>{voice_count}</code>\n"
+    )
+
+    if voice_list:
+        text += "\n" + "\n".join(voice_list)
+
+    text += (
+        "\n━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🎥 <b>Video Chats:</b> <code>{video_count}</code>\n"
+    )
+
+    if video_list:
+        text += "\n" + "\n".join(video_list)
+
+    text += (
+        "\n━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"📞 <b>Total Active Calls:</b> <code>{total}</code>\n"
+        f"🕒 <i>Last Updated:</i> <code>{get_current_time()}</code>"
+    )
+
+    return text
+
+
+def generate_minimal_text(voice_count, video_count):
     total = voice_count + video_count
     return (
-        "🎧 <b>Active Call Stats</b>\n\n"
-        f"🔊 Voice Chats : <code>{voice_count}</code>\n"
-        f"🎥 Video Chats : <code>{video_count}</code>\n"
-        f"📞 Total Calls : <code>{total}</code>\n\n"
-        f"🕒 <i>Updated on:</i> <code>{get_current_time()}</code>"
+        "📊 <b>Real-Time Call Activity</b>\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🔊 <b>Voice Chats:</b> <code>{voice_count}</code>\n"
+        f"🎥 <b>Video Chats:</b> <code>{video_count}</code>\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"📞 <b>Total Active Calls:</b> <code>{total}</code>\n"
+        f"🕒 <i>Last Updated:</i> <code>{get_current_time()}</code>"
     )
 
 
 @app.on_message(filters.command(["activecalls", "acalls"]) & SUDOERS)
 async def active_calls(_, message: Message):
-    voice_count, video_count = await get_call_stats()
-    text = generate_text(voice_count, video_count)
+    voice_list, video_list = await get_call_stats_detailed()
+    detailed_text = generate_detailed_text(voice_list, video_list)
 
     button = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("🔄 Refresh", callback_data=CALLS_REFRESH)]]
+        [[InlineKeyboardButton("✖ Close", callback_data=CALLS_CLOSE)]]
     )
+
+    if len(detailed_text) > 4000:
+        # If message too long, fallback to minimal version
+        text = generate_minimal_text(len(voice_list), len(video_list))
+    else:
+        text = detailed_text
 
     await message.reply_text(text, reply_markup=button)
 
 
-@app.on_callback_query(filters.regex(CALLS_REFRESH) & SUDOERS)
-async def refresh_calls(_, query: CallbackQuery):
-    voice_count, video_count = await get_call_stats()
-    new_text = generate_text(voice_count, video_count)
-
-    if new_text != query.message.text.html:
-        await query.message.edit_text(new_text, reply_markup=query.message.reply_markup)
-        await query.answer("Updated!")
-    else:
-        await query.answer("No changes.")
+@app.on_callback_query(filters.regex(CALLS_CLOSE) & SUDOERS)
+async def close_calls(_, query: CallbackQuery):
+    await query.message.delete()
+    await query.answer("Closed.")
