@@ -85,7 +85,7 @@ def generate_minimal_text(voice_count, video_count):
         f"🎥 <b>Video Chats:</b> <code>{video_count}</code>\n"
         "━━━━━━━━━━━━━━━━━━━━━━\n"
         f"📞 <b>Total Active Calls:</b> <code>{total}</code>\n"
-        f"🕒 <i>Last Updated:</i> <code>{get_current_time()}</code>"
+        f"🕒 <b>Last Updated:</b> <code>{get_current_time()}</code>"
     )
 
 
