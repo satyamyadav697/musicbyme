@@ -13,8 +13,6 @@ from DeadlineTech.misc import sudo
 from DeadlineTech.plugins import ALL_MODULES
 from DeadlineTech.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
-from DeadlineTech.plugins.misc.autoleave import scheduled_auto_leave
-
 
 
 async def init():
@@ -38,7 +36,6 @@ async def init():
     except:
         pass
     await app.start()
-    asyncio.create_task(scheduled_auto_leave())
     for all_module in ALL_MODULES:
         importlib.import_module("DeadlineTech.plugins" + all_module)
     LOGGER("DeadlineTech.plugins").info("Successfully Imported Modules...")
