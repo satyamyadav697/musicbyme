@@ -30,14 +30,14 @@ This project uses:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/deadlinetech-bot.git
-cd deadlinetech-bot
+git clone https://github.com/DeadlineTech/music.git
+cd music
 ```
 
 ### 2. Build the Docker Image
 
 ```bash
-docker build -t deadlinetech-bot .
+docker build -t music .
 ```
 
 > This step may take several minutes the first time.
@@ -45,7 +45,7 @@ docker build -t deadlinetech-bot .
 ### 3. Run the Container
 
 ```bash
-docker run -it --restart unless-stopped --name dt-bot deadlinetech-bot
+docker run -it --restart unless-stopped --name dt-bot music
 ```
 
 This will:
@@ -55,7 +55,7 @@ This will:
 ### Optional: Run Detached
 
 ```bash
-docker run -dit --restart unless-stopped --name dt-bot deadlinetech-bot
+docker run -dit --restart unless-stopped --name dt-bot music
 ```
 
 ---
@@ -74,7 +74,7 @@ docker run -dit --restart unless-stopped --name dt-bot deadlinetech-bot
 - **Rebuild after changes**  
   ```bash
   docker stop dt-bot && docker rm dt-bot
-  docker build -t deadlinetech-bot .
-  docker run -it --name dt-bot deadlinetech-bot
+  docker build -t music .
+  docker run -it --name dt-bot music
   ```
 </details>
