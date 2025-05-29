@@ -97,6 +97,93 @@ DeadlineTech Music
 </details>
 
 <details>
+<summary><b>🏷 Docker Deployment</b></summary>
+
+# 🐳 Docker Deployment Guide — DeadlineTech Bot
+
+## 📦 Prerequisites
+
+Before you begin, ensure you have:
+
+- [Docker](https://www.docker.com/products/docker-desktop) installed (version 20+ recommended)
+- A `start` script in your root directory (make sure it's executable: `chmod +x start`)
+- A `requirements.txt` file for Python dependencies
+- Source code inside the same directory as your Dockerfile
+
+---
+
+## 🛠 Dockerfile Summary
+
+This project uses:
+
+- **Python 3.10**
+- **Node.js v18 (via NVM)**
+- **FFmpeg** for media handling
+
+---
+
+## 🚀 Steps to Build & Run
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/deadlineTech/music.git
+cd music
+```
+
+### 2. Build the Docker Image
+
+```bash
+docker build -t music .
+```
+
+> This step may take several minutes the first time.
+
+### 3. Run the Container
+
+```bash
+docker run --env-file .env -it --restart unless-stopped --name dt-bot music
+```
+
+This will:
+- Run the bot inside a container
+- Automatically restart on crash or reboot
+
+### Optional: Run Detached
+
+```bash
+docker run --env-file .env -dit --restart unless-stopped --name dt-bot music
+```
+
+---
+
+## 📌 Common Commands
+
+- **Stop the container**  
+  ```bash
+  docker stop dt-bot
+  ```
+
+- **Start it again**  
+  ```bash
+  docker start dt-bot
+  ```
+
+- **View logs**  
+  ```bash
+  docker logs -f dt-bot
+  ```
+
+- **Rebuild after changes**  
+  ```bash
+  docker stop dt-bot && docker rm dt-bot
+  git pull origin master
+  docker build -t music .
+  docker run -it --name dt-bot music
+  ```
+</details>
+
+<details>
 <summary><b>🔸 Deploy on VPS / Localhost</b></summary>
 
 **1. Install Dependencies**
