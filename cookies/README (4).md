@@ -45,7 +45,7 @@ docker build -t music .
 ### 3. Run the Container
 
 ```bash
-docker run -it --restart unless-stopped --name dt-bot music
+docker run --env-file .env -it --restart unless-stopped --name dt-bot music
 ```
 
 This will:
@@ -55,7 +55,7 @@ This will:
 ### Optional: Run Detached
 
 ```bash
-docker run -dit --restart unless-stopped --name dt-bot music
+docker run --env-file .env -dit --restart unless-stopped --name dt-bot music
 ```
 
 ---
@@ -63,17 +63,24 @@ docker run -dit --restart unless-stopped --name dt-bot music
 ## 📌 Common Commands
 
 - **Stop the container**  
-  `docker stop dt-bot`
+  ```bash
+  docker stop dt-bot
+  ```
 
 - **Start it again**  
-  `docker start dt-bot`
+  ```bash
+  docker start dt-bot
+  ```
 
 - **View logs**  
-  `docker logs -f dt-bot`
+  ```bash
+  docker logs -f dt-bot
+  ```
 
 - **Rebuild after changes**  
   ```bash
   docker stop dt-bot && docker rm dt-bot
+  git pull origin master
   docker build -t music .
   docker run -it --name dt-bot music
   ```
