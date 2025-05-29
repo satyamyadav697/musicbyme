@@ -1,4 +1,4 @@
-# auto_leave.py
+# Powered by DeadlineTech
 
 import asyncio
 from datetime import datetime, timedelta
@@ -6,8 +6,8 @@ from datetime import datetime, timedelta
 from pyrogram.enums import ChatType
 
 import config
-from AnonXMusic import app
-from AnonXMusic.utils.database import get_client, is_active_chat
+from DeadlineTech import app
+from DeadlineTech.utils.database import get_client, is_active_chat
 
 # Enable or disable auto leave
 AUTO_LEAVE_ENABLED = True
@@ -23,7 +23,7 @@ def seconds_until_4am():
 # Command to toggle auto-leave (optional)
 from pyrogram import filters
 from pyrogram.types import Message
-from AnonXMusic.misc import SUDOERS
+from DeadlineTech.misc import SUDOERS
 
 @app.on_message(filters.command("auto_leave") & SUDOERS)
 async def toggle_auto_leave(_, message: Message):
@@ -34,7 +34,7 @@ async def toggle_auto_leave(_, message: Message):
 
 # Main scheduled task
 async def scheduled_auto_leave():
-    from AnonXMusic.core.userbot import assistants
+    from DeadlineTech.core.userbot import assistants
 
     print("[AutoLeave] Background task started.")
     while True:
@@ -66,13 +66,5 @@ async def scheduled_auto_leave():
             except Exception as e:
                 print(f"[AutoLeave Error] Assistant {num} failed: {e}")
 
-# Start the task after bot startup
-from pyrogram import idle
 
-async def main():
-    await app.start()
-    asyncio.create_task(scheduled_auto_leave())
-    await idle()
 
-if __name__ == "__main__":
-    asyncio.run(main())
