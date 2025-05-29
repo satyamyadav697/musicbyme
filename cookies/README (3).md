@@ -1,3 +1,6 @@
+<details>
+<summary><b>📛 Docker Deployment Guide</b></summary>
+
 
 # 🐳 Docker Deployment Guide — DeadlineTech Bot
 
@@ -57,42 +60,6 @@ docker run -dit --restart unless-stopped --name dt-bot deadlinetech-bot
 
 ---
 
-## ⚙ Environment Variables
-
-If your app uses environment variables (like API keys or tokens), you can provide them like this:
-
-```bash
-docker run -it \
-  -e API_ID=123456 \
-  -e API_HASH=abcdef1234567890 \
-  -e BOT_TOKEN=123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11 \
-  --name dt-bot \
-  deadlinetech-bot
-```
-
-You can also create a `.env` file and load it with:
-
-```bash
-docker run --env-file .env -it --name dt-bot deadlinetech-bot
-```
-
----
-
-## 📄 File Structure Example
-
-```
-📁 deadlinetech-bot/
-├── Dockerfile
-├── requirements.txt
-├── start
-├── config.py
-├── main.py
-└── DeadlineTech/
-    └── ...
-```
-
----
-
 ## 📌 Common Commands
 
 - **Stop the container**  
@@ -110,16 +77,4 @@ docker run --env-file .env -it --name dt-bot deadlinetech-bot
   docker build -t deadlinetech-bot .
   docker run -it --name dt-bot deadlinetech-bot
   ```
-
----
-
-## ❓Troubleshooting
-
-- **Permission denied on `start` script?**  
-  Run: `chmod +x start`
-
-- **NVM not loading properly?**  
-  Make sure `start` runs under `bash` and `.bashrc` sources NVM
-
-- **Not leaving chats / background jobs not running?**  
-  Ensure `asyncio.create_task(...)` is included **after** app starts in your `init()` function.
+</details>
