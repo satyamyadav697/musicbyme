@@ -13,7 +13,7 @@ from DeadlineTech.misc import sudo
 from DeadlineTech.plugins import ALL_MODULES
 from DeadlineTech.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
-from DeadlineTech.plugins.misc.auto_leave import scheduled_auto_leave
+from DeadlineTech.plugins.misc.autoleave import scheduled_auto_leave
 
 
 
