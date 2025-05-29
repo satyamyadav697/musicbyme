@@ -26,14 +26,14 @@ async def get_call_stats_detailed():
     for cid in voice_ids:
         try:
             chat = await app.get_chat(cid)
-            voice_chats.append(f"• <b>{chat.title}</b> [`{cid}`]")
+            voice_chats.append(f"• <b>{chat.title}</b> [<code>{cid}</code>]")
         except:
             await remove_active_chat(cid)
 
     for cid in video_ids:
         try:
             chat = await app.get_chat(cid)
-            video_chats.append(f"• <b>{chat.title}</b> [`{cid}`]")
+            video_chats.append(f"• <b>{chat.title}</b> [<code>{cid}</code>]")
         except:
             await remove_active_video_chat(cid)
 
@@ -70,7 +70,7 @@ def generate_detailed_text(voice_list, video_list):
     text += (
         "\n━━━━━━━━━━━━━━━━━━━━━━\n"
         f"📞 <b>Total Active Calls:</b> <code>{total}</code>\n"
-        f"🕒 <i>Last Updated:</i> <code>{get_current_time()}</code>"
+        f"🕒 <b>Last Updated:</b> <code>{get_current_time()}</code>"
     )
 
     return text
@@ -98,7 +98,7 @@ async def active_calls(_, message: Message):
         [[InlineKeyboardButton("✖ Close", callback_data=CALLS_CLOSE)]]
     )
 
-    if len(detailed_text) > 4000:
+    if len(detailed_text) > 2000:
         # If message too long, fallback to minimal version
         text = generate_minimal_text(len(voice_list), len(video_list))
     else:
@@ -110,4 +110,4 @@ async def active_calls(_, message: Message):
 @app.on_callback_query(filters.regex(CALLS_CLOSE) & SUDOERS)
 async def close_calls(_, query: CallbackQuery):
     await query.message.delete()
-    await query.answer("Closed.")
+    await query.answer("closed❗")
