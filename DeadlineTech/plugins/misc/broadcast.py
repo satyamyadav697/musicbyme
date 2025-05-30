@@ -7,6 +7,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait, RPCError
+from pyrogram.types import Message
 
 from DeadlineTech import app
 from DeadlineTech.misc import SUDOERS
