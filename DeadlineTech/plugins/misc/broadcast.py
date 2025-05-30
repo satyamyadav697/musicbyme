@@ -24,15 +24,18 @@ from config import adminlist
 
 # Global broadcast status
 BROADCAST_STATUS = {
-    "active": False,
-    "sent": 0,
-    "failed": 0,
-    "total": 0,
-    "start_time": 0,
-    "users": 0,
-    "chats": 0,
-    "mode": "",
+    "active": False,
+    "sent": 0,
+    "failed": 0,
+    "total": 0,
+    "start_time": 0,
+    "users": 0,
+    "chats": 0,
+    "mode": "",
+    "sent_users": 0,
+    "sent_chats": 0,
 }
+
 
 
 @app.on_message(filters.command("broadcast") & SUDOERS)
@@ -99,6 +102,10 @@ async def broadcast_command(client, message: Message):
             else:
                 await content.copy(chat_id)
             BROADCAST_STATUS["sent"] += 1
+            if chat_id in target_users:
+                BROADCAST_STATUS["sent_users"] += 1
+            else:
+                BROADCAST_STATUS["sent_chats"] += 1
         except FloodWait as e:
             await asyncio.sleep(min(e.value, 60))  # Limit max sleep
             return await deliver(chat_id)  # Retry after wait
@@ -131,16 +138,15 @@ async def broadcast_command(client, message: Message):
     BROADCAST_STATUS["active"] = False
     elapsed = round(time.time() - BROADCAST_STATUS["start_time"])
     await status_msg.edit_text(
-        f"✅ <b>Broadcast Complete!</b>\n\n"
-        f"🔘 Mode: <code>{BROADCAST_STATUS['mode']}</code>\n"
-        f"📦 Total Targets: <code>{BROADCAST_STATUS['total']}</code>\n"
-        f"    ├ Users: <code>{BROADCAST_STATUS['users']}</code>\n"
-        f"    └ Chats: <code>{BROADCAST_STATUS['chats']}</code>\n"
-        f"📬 Delivered: <code>{BROADCAST_STATUS['sent']}</code>\n"
-       f"❌ Failed: <code>{BROADCAST_STATUS['failed']}</code>\n"
-       f"⏰ Time Taken: <code>{elapsed}s</code>"
+        f"✅ <b>Broadcast Complete!</b>\n\n"
+        f"🔘 Mode: <code>{BROADCAST_STATUS['mode']}</code>\n"
+        f"📦 Total Targets: <code>{BROADCAST_STATUS['total']}</code>\n"
+        f"📬 Delivered: <code>{BROADCAST_STATUS['sent']}</code>\n"
+        f"    ├ Users: <code>{BROADCAST_STATUS['sent_users']}</code>\n"
+        f"    └ Chats: <code>{BROADCAST_STATUS['sent_chats']}</code>\n"
+        f"❌ Failed: <code>{BROADCAST_STATUS['failed']}</code>\n"
+        f"⏰ Time Taken: <code>{elapsed}s</code>"
     )
-
 
 
 @app.on_message(filters.command("status") & SUDOERS)
