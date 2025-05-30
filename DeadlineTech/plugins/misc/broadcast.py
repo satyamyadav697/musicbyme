@@ -122,7 +122,9 @@ async def broadcast_command(client, message: Message):
             f"📣 <b>Broadcast In Progress</b>\n"
             f"✅ Sent: <code>{BROADCAST_STATUS['sent']}</code>\n"
             f"❌ Failed: <code>{BROADCAST_STATUS['failed']}</code>\n"
-            f"📦 Total: <code>{total}</code>\n"
+            f"📦 Total Targets: <code>{BROADCAST_STATUS['total']}</code>\n"
+            f"    ├ Users: <code>{BROADCAST_STATUS['users']}</code>\n"
+            f"    └ Chats: <code>{BROADCAST_STATUS['chats']}</code>\n"
             f"🔃 Progress: <code>{percent}%</code>"
         )
 
