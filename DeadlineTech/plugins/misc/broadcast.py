@@ -24,16 +24,16 @@ from config import adminlist
 
 # Global broadcast status
 BROADCAST_STATUS = {
-    "active": False,
-    "sent": 0,
-    "failed": 0,
-    "total": 0,
-    "start_time": 0,
-    "users": 0,
-    "chats": 0,
-    "mode": "",
-    "sent_users": 0,
-    "sent_chats": 0,
+    "active": False,
+    "sent": 0,
+    "failed": 0,
+    "total": 0,
+    "start_time": 0,
+    "users": 0,
+    "chats": 0,
+    "mode": "",
+    "sent_users": 0,
+    "sent_chats": 0,
 }
 
 
