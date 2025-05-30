@@ -103,9 +103,9 @@ async def broadcast_command(client, message: Message):
                 await content.copy(chat_id)
             BROADCAST_STATUS["sent"] += 1
             if chat_id in target_users:
-                BROADCAST_STATUS["sent_users"] += 1
+                BROADCAST_STATUS["sent_users"] += 1
             else:
-                BROADCAST_STATUS["sent_chats"] += 1
+                BROADCAST_STATUS["sent_chats"] += 1
         except FloodWait as e:
             await asyncio.sleep(min(e.value, 60))  # Limit max sleep
             return await deliver(chat_id)  # Retry after wait
