@@ -138,14 +138,14 @@ async def broadcast_command(client, message: Message):
     BROADCAST_STATUS["active"] = False
     elapsed = round(time.time() - BROADCAST_STATUS["start_time"])
     await status_msg.edit_text(
-        f"✅ <b>Broadcast Complete!</b>\n\n"
-        f"🔘 Mode: <code>{BROADCAST_STATUS['mode']}</code>\n"
-        f"📦 Total Targets: <code>{BROADCAST_STATUS['total']}</code>\n"
-        f"📬 Delivered: <code>{BROADCAST_STATUS['sent']}</code>\n"
-        f"    ├ Users: <code>{BROADCAST_STATUS['sent_users']}</code>\n"
-        f"    └ Chats: <code>{BROADCAST_STATUS['sent_chats']}</code>\n"
-        f"❌ Failed: <code>{BROADCAST_STATUS['failed']}</code>\n"
-        f"⏰ Time Taken: <code>{elapsed}s</code>"
+        f"✅ <b>Broadcast Complete!</b>\n\n"
+        f"🔘 Mode: <code>{BROADCAST_STATUS['mode']}</code>\n"
+        f"📦 Total Targets: <code>{BROADCAST_STATUS['total']}</code>\n"
+        f"📬 Delivered: <code>{BROADCAST_STATUS['sent']}</code>\n"
+        f"    ├ Users: <code>{BROADCAST_STATUS['sent_users']}</code>\n"
+        f"    └ Chats: <code>{BROADCAST_STATUS['sent_chats']}</code>\n"
+        f"❌ Failed: <code>{BROADCAST_STATUS['failed']}</code>\n"
+        f"⏰ Time Taken: <code>{elapsed}s</code>"
     )
 
 
