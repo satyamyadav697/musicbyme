@@ -1,3 +1,5 @@
+# Powered by Team DeadlineTech
+
 import asyncio
 
 from pyrogram import filters
