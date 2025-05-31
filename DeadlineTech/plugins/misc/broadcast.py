@@ -4,17 +4,17 @@ from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 
-from AviaxMusic import app
-from AviaxMusic.misc import SUDOERS
-from AviaxMusic.utils.database import (
+from DeadlineTech import app
+from DeadlineTech.misc import SUDOERS
+from DeadlineTech.utils.database import (
     get_active_chats,
     get_authuser_names,
     get_client,
     get_served_chats,
     get_served_users,
 )
-from AviaxMusic.utils.decorators.language import language
-from AviaxMusic.utils.formatters import alpha_to_int
+from DeadlineTech.utils.decorators.language import language
+from DeadlineTech.utils.formatters import alpha_to_int
 from config import adminlist
 
 IS_BROADCASTING = False
