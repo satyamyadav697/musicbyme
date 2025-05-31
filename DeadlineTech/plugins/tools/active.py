@@ -98,7 +98,7 @@ async def active_calls(_, message: Message):
         [[InlineKeyboardButton("✖ Close", callback_data=CALLS_CLOSE)]]
     )
 
-    if len(detailed_text) > 2000:
+    if len(detailed_text) > 1500:
         # If message too long, fallback to minimal version
         text = generate_minimal_text(len(voice_list), len(video_list))
     else:
