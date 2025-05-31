@@ -1,10 +1,13 @@
-# Powered by Team DeadlineTech
+# Powered By Team DeadlineTech
 
+import time
+import logging
 import asyncio
 
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, RPCError
+from pyrogram.types import Message
 
 from DeadlineTech import app
 from DeadlineTech.misc import SUDOERS
@@ -19,194 +22,157 @@ from DeadlineTech.utils.decorators.language import language
 from DeadlineTech.utils.formatters import alpha_to_int
 from config import adminlist
 
-IS_BROADCASTING = False
+# Global broadcast status
+BROADCAST_STATUS = {
+    "active": False,
+    "sent": 0,
+    "failed": 0,
+    "total": 0,
+    "start_time": 0,
+    "users": 0,
+    "chats": 0,
+    "mode": "",
+    "sent_users": 0,
+    "sent_chats": 0,
+}
+
 
 
 @app.on_message(filters.command("broadcast") & SUDOERS)
-@language
-async def braodcast_message(client, message, _):
-    global IS_BROADCASTING
+async def broadcast_command(client, message: Message):
+    global BROADCAST_STATUS
 
-    if "-wfchat" in message.text or "-wfuser" in message.text:
-        if not message.reply_to_message or not (message.reply_to_message.photo or message.reply_to_message.text):
-            return await message.reply_text("Please reply to a text or image message for broadcasting.")
+    command = message.text.lower()
+    mode = "forward" if "-forward" in command else "copy"
 
-        # Extract data from the replied message
-        if message.reply_to_message.photo:
-            content_type = 'photo'
-            file_id = message.reply_to_message.photo.file_id
-        else:
-            content_type = 'text'
-            text_content = message.reply_to_message.text
-            
-        caption = message.reply_to_message.caption
-        reply_markup = message.reply_to_message.reply_markup if hasattr(message.reply_to_message, 'reply_markup') else None
-
-        IS_BROADCASTING = True
-        await message.reply_text(_["broad_1"])
-
-        if "-wfchat" in message.text or "-wfuser" in message.text:
-            # Broadcasting to chats
-            sent_chats = 0
-            chats = [int(chat["chat_id"]) for chat in await get_served_chats()]
-            for i in chats:
-                try:
-                    if content_type == 'photo':
-                        await app.send_photo(chat_id=i, photo=file_id, caption=caption, reply_markup=reply_markup)
-                    else:
-                        await app.send_message(chat_id=i, text=text_content, reply_markup=reply_markup)
-                    sent_chats += 1
-                    await asyncio.sleep(0.2)
-                except FloodWait as fw:
-                    await asyncio.sleep(fw.x)
-                except:
-                    continue
-            await message.reply_text(f"Broadcast to chats completed! Sent to {sent_chats} chats.")
-
-        if "-wfuser" in message.text:
-            # Broadcasting to users
-            sent_users = 0
-            users = [int(user["user_id"]) for user in await get_served_users()]
-            for i in users:
-                try:
-                    if content_type == 'photo':
-                        await app.send_photo(chat_id=i, photo=file_id, caption=caption, reply_markup=reply_markup)
-                    else:
-                        await app.send_message(chat_id=i, text=text_content, reply_markup=reply_markup)
-                    sent_users += 1
-                    await asyncio.sleep(0.2)
-                except FloodWait as fw:
-                    await asyncio.sleep(fw.x)
-                except:
-                    continue
-            await message.reply_text(f"Broadcast to users completed! Sent to {sent_users} users.")
-
-        IS_BROADCASTING = False
-        return
-
-    
-    if message.reply_to_message:
-        x = message.reply_to_message.id
-        y = message.chat.id
-        reply_markup = message.reply_to_message.reply_markup if message.reply_to_message.reply_markup else None
-        content = None
+    # Determine recipients
+    if "-all" in command:
+        users = await get_served_users()
+        chats = await get_served_chats()
+        target_users = [u["user_id"] for u in users]
+        target_chats = [c["chat_id"] for c in chats]
+    elif "-users" in command:
+        users = await get_served_users()
+        target_users = [u["user_id"] for u in users]
+        target_chats = []
+    elif "-chats" in command:
+        chats = await get_served_chats()
+        target_chats = [c["chat_id"] for c in chats]
+        target_users = []
     else:
-        if len(message.command) < 2:
-            return await message.reply_text(_["broad_2"])
-        query = message.text.split(None, 1)[1]
-        if "-pin" in query:
-            query = query.replace("-pin", "")
-        if "-nobot" in query:
-            query = query.replace("-nobot", "")
-        if "-pinloud" in query:
-            query = query.replace("-pinloud", "")
-        if "-assistant" in query:
-            query = query.replace("-assistant", "")
-        if "-user" in query:
-            query = query.replace("-user", "")
-        if query == "":
-            return await message.reply_text(_["broad_8"])
+        return await message.reply_text("❗ Usage:\n-broadcast -all/-users/-chats [-forward]")
 
-    IS_BROADCASTING = True
-    await message.reply_text(_["broad_1"])
+    if not target_users and not target_chats:
+        return await message.reply_text("⚠ No recipients found.")
 
-    if "-nobot" not in message.text:
-        sent = 0
-        pin = 0
-        chats = []
-        schats = await get_served_chats()
-        for chat in schats:
-            chats.append(int(chat["chat_id"]))
-        for i in chats:
-            try:
-                m = (
-                    await app.copy_message(chat_id=i, from_chat_id=y, message_id=x, reply_markup=reply_markup)
-                    if message.reply_to_message
-                    else await app.send_message(i, text=query)
-                )
-                if "-pin" in message.text:
-                    try:
-                        await m.pin(disable_notification=True)
-                        pin += 1
-                    except:
-                        continue
-                elif "-pinloud" in message.text:
-                    try:
-                        await m.pin(disable_notification=False)
-                        pin += 1
-                    except:
-                        continue
-                sent += 1
-                await asyncio.sleep(0.2)
-            except FloodWait as fw:
-                flood_time = int(fw.value)
-                if flood_time > 200:
-                    continue
-                await asyncio.sleep(flood_time)
-            except:
-                continue
+    # Get content
+    if message.reply_to_message:
+        content = message.reply_to_message
+    else:
+        text = message.text
+        for kw in ["/broadcast", "-forward", "-all", "-users", "-chats"]:
+            text = text.replace(kw, "")
+        text = text.strip()
+        if not text:
+            return await message.reply_text("📝 Provide a message or reply to one.")
+        content = text
+
+    # Initialize status
+    targets = target_users + target_chats
+    total = len(targets)
+    BROADCAST_STATUS.update({
+        "active": True,
+        "sent": 0,
+        "failed": 0,
+        "total": total,
+        "start_time": time.time(),
+        "users": len(target_users),
+        "chats": len(target_chats),
+        "mode": mode,
+    })
+
+    status_msg = await message.reply_text("📡 Broadcasting started...")
+
+    async def deliver(chat_id):
         try:
-            await message.reply_text(_["broad_3"].format(sent, pin))
-        except:
-            pass
+            if isinstance(content, str):
+                await app.send_message(chat_id, content)
+            elif mode == "forward":
+                await app.forward_messages(chat_id, message.chat.id, [content.id])
+            else:
+                await content.copy(chat_id)
+            BROADCAST_STATUS["sent"] += 1
+            if chat_id in target_users:
+                BROADCAST_STATUS["sent_users"] += 1
+            else:
+                BROADCAST_STATUS["sent_chats"] += 1
+        except FloodWait as e:
+            await asyncio.sleep(min(e.value, 60))  # Limit max sleep
+            return await deliver(chat_id)  # Retry after wait
+        except RPCError:
+            BROADCAST_STATUS["failed"] += 1
+        except Exception as e:
+            BROADCAST_STATUS["failed"] += 1
+            logging.exception(f"Unhandled error for chat {chat_id}: {e}")
 
-    if "-user" in message.text:
-        susr = 0
-        served_users = []
-        susers = await get_served_users()
-        for user in susers:
-            served_users.append(int(user["user_id"]))
-        for i in served_users:
-            try:
-                m = (
-                    await app.copy_message(chat_id=i, from_chat_id=y, message_id=x, reply_markup=reply_markup)
-                    if message.reply_to_message
-                    else await app.send_message(i, text=query)
-                )
-                susr += 1
-                await asyncio.sleep(0.2)
-            except FloodWait as fw:
-                flood_time = int(fw.value)
-                if flood_time > 200:
-                    continue
-                await asyncio.sleep(flood_time)
-            except:
-                pass
-        try:
-            await message.reply_text(_["broad_4"].format(susr))
-        except:
-            pass
+    # Broadcast in batches to avoid memory/flood issues
+    BATCH_SIZE = 100
+    for i in range(0, total, BATCH_SIZE):
+        batch = targets[i:i + BATCH_SIZE]
+        tasks = [deliver(chat_id) for chat_id in batch]
+        await asyncio.gather(*tasks, return_exceptions=True)
+        await asyncio.sleep(1.5)  # Delay between batches
 
-    if "-assistant" in message.text:
-        aw = await message.reply_text(_["broad_5"])
-        text = _["broad_6"]
-        from AviaxMusic.core.userbot import assistants
+        # Update status message (optionally)
+        percent = round((BROADCAST_STATUS["sent"] + BROADCAST_STATUS["failed"]) / total * 100, 2)
+        await status_msg.edit_text(
+            f"📣 <b>Broadcast In Progress</b>\n"
+            f"✅ Sent: <code>{BROADCAST_STATUS['sent']}</code>\n"
+            f"❌ Failed: <code>{BROADCAST_STATUS['failed']}</code>\n"
+            f"📦 Total Targets: <code>{BROADCAST_STATUS['total']}</code>\n"
+            f"    ├ Users: <code>{BROADCAST_STATUS['users']}</code>\n"
+            f"    └ Chats: <code>{BROADCAST_STATUS['chats']}</code>\n"
+            f"🔃 Progress: <code>{percent}%</code>"
+        )
 
-        for num in assistants:
-            sent = 0
-            client = await get_client(num)
-            async for dialog in client.get_dialogs():
-                try:
-                    await client.forward_messages(
-                        dialog.chat.id, y, x
-                    ) if message.reply_to_message else await client.send_message(
-                        dialog.chat.id, text=query
-                    )
-                    sent += 1
-                    await asyncio.sleep(3)
-                except FloodWait as fw:
-                    flood_time = int(fw.value)
-                    if flood_time > 200:
-                        continue
-                    await asyncio.sleep(flood_time)
-                except:
-                    continue
-            text += _["broad_7"].format(num, sent)
-        try:
-            await aw.edit_text(text)
-        except:
-            pass
-    IS_BROADCASTING = False
+    BROADCAST_STATUS["active"] = False
+    elapsed = round(time.time() - BROADCAST_STATUS["start_time"])
+    await status_msg.edit_text(
+        f"✅ <b>Broadcast Complete!</b>\n\n"
+        f"🔘 Mode: <code>{BROADCAST_STATUS['mode']}</code>\n"
+        f"📦 Total Targets: <code>{BROADCAST_STATUS['total']}</code>\n"
+        f"📬 Delivered: <code>{BROADCAST_STATUS['sent']}</code>\n"
+        f"    ├ Users: <code>{BROADCAST_STATUS['sent_users']}</code>\n"
+        f"    └ Chats: <code>{BROADCAST_STATUS['sent_chats']}</code>\n"
+        f"❌ Failed: <code>{BROADCAST_STATUS['failed']}</code>\n"
+        f"⏰ Time Taken: <code>{elapsed}s</code>"
+    )
+
+
+@app.on_message(filters.command("status") & SUDOERS)
+async def broadcast_status(client, message):
+    if not BROADCAST_STATUS["active"]:
+        return await message.reply_text("📡 No active broadcast.")
+    elapsed = round(time.time() - BROADCAST_STATUS["start_time"])
+    sent = BROADCAST_STATUS["sent"]
+    failed = BROADCAST_STATUS["failed"]
+    total = BROADCAST_STATUS["total"]
+    percent = round((sent + failed) / total * 100, 2)
+
+    eta = (elapsed / max((sent + failed), 1)) * (total - (sent + failed))
+    eta_fmt = f"{int(eta // 60)}m {int(eta % 60)}s"
+
+    bar = f"[{'█' * int(percent // 5)}{'░' * (20 - int(percent // 5))}]"
+
+    await message.reply_text(
+        f"📊 <b>Live Broadcast Status</b>\n\n"
+        f"{bar} <code>{percent}%</code>\n"
+        f"✅ Sent: <code>{sent}</code>\n"
+        f"❌ Failed: <code>{failed}</code>\n"
+        f"📦 Total: <code>{total}</code>\n"
+        f"⏱ ETA: <code>{eta_fmt}</code>\n"
+        f"🕒 Elapsed: <code>{elapsed}s</code>"
+    )
 
 
 async def auto_clean():
