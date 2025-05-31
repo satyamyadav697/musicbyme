@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime, timedelta
+import pytz
 
 from pyrogram.enums import ChatType
 
@@ -9,12 +10,13 @@ from DeadlineTech.utils.database import get_client, is_active_chat
 
 # Calculate seconds until next 4:35 AM
 def seconds_until_435am():
-    now = datetime.now()
+    tz = pytz.timezone("Asia/Kolkata")
+    now = datetime.now(tz)
     target = now.replace(hour=4, minute=35, second=0, microsecond=0)
     if now >= target:
         target += timedelta(days=1)
     return (target - now).total_seconds()
-
+    
 async def auto_leave():
     if config.AUTO_LEAVING_ASSISTANT:
         print("DeadlineTech.plugins.misc.Auto_leave Task started.")
