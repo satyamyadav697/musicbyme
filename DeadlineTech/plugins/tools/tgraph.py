@@ -1,7 +1,7 @@
 import os
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from AnonXMusic import app
+from DeadlineTech import app
 import requests
 
 
