@@ -17,10 +17,10 @@ def seconds_until_435am():
 
 async def auto_leave():
     if config.AUTO_LEAVING_ASSISTANT:
-        print("[AutoLeave] Task started.")
+        print("DeadlineTech.plugins.misc.Auto_leave Task started.")
         while True:
             sleep_duration = seconds_until_435am()
-            print(f"[AutoLeave] Sleeping for {sleep_duration} seconds until 4:35 AM.")
+            print(f"DeadlineTech.plugins.misc.Auto_leave Sleeping for {sleep_duration} seconds until 4:35 AM.")
             await asyncio.sleep(sleep_duration)
 
             from DeadlineTech.core.userbot import assistants
