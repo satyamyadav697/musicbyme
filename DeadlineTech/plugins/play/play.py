@@ -106,6 +106,7 @@ async def play_commnd(
                     streamtype="telegram",
                     forceplay=fplay,
                 )
+                print(f"[LOG] Song played in chat {chat_id} by ID: {user_id}")
             except Exception as e:
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -150,6 +151,7 @@ async def play_commnd(
                     streamtype="telegram",
                     forceplay=fplay,
                 )
+                print(f"[LOG] Song played in chat {chat_id} by {user_id}")
             except Exception as e:
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -285,6 +287,7 @@ async def play_commnd(
                     streamtype="index",
                     forceplay=fplay,
                 )
+                print(f"[LOG] Song played in chat {chat_id}")
             except Exception as e:
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -342,6 +345,7 @@ async def play_commnd(
                 spotify=spotify,
                 forceplay=fplay,
             )
+            print(f"[LOG] Song played in chat {chat_id} by {user_id}")
         except Exception as e:
             ex_type = type(e).__name__
             err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
