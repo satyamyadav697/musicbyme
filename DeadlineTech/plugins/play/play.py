@@ -300,7 +300,7 @@ async def play_commnd(
                 )
             except Exception as e:
                 return await mystic.edit_text(_["general_2"].format(type(e).__name__))
-            await mystic.edit_text(_["str_2"])
+            await mystic.edit_text(_["str_2"])"""
             try:
                 await stream(
                     _,
