@@ -1,3 +1,4 @@
+from DeadlineTech import app
 from DeadlineTech.misc import SUDOERS
 from DeadlineTech.utils.database import get_lang, is_maintenance
 from strings import get_string
