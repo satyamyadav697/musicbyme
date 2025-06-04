@@ -1,5 +1,3 @@
-# Powered by DeadlineTech
-
 import asyncio
 import logging
 import traceback
@@ -40,12 +38,14 @@ def PlayWrapper(command):
             language = await get_lang(message.chat.id)
             _ = get_string(language)
 
+            # Anonymous admin check
             if message.sender_chat:
                 upl = InlineKeyboardMarkup(
                     [[InlineKeyboardButton(text="ʜᴏᴡ ᴛᴏ ғɪx ?", callback_data="AnonymousAdmin")]]
                 )
                 return await message.reply_text(_["general_3"], reply_markup=upl)
 
+            # Maintenance check
             if await is_maintenance() is False and message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     f"{app.mention} ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ, ᴠɪsɪᴛ <a href={SUPPORT_CHAT}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</a>.",
@@ -57,6 +57,7 @@ def PlayWrapper(command):
             except Exception as e:
                 logger.warning(f"Failed to delete message: {e}")
 
+            # Media and URL checks
             audio_telegram = (
                 (message.reply_to_message.audio or message.reply_to_message.voice)
                 if message.reply_to_message else None
@@ -77,6 +78,7 @@ def PlayWrapper(command):
                         reply_markup=InlineKeyboardMarkup(botplaylist_markup(_)),
                     )
 
+            # Channel mode
             if message.command[0][0] == "c":
                 chat_id = await get_cmode(message.chat.id)
                 if not chat_id:
@@ -91,6 +93,7 @@ def PlayWrapper(command):
                 chat_id = message.chat.id
                 channel = None
 
+            # Permissions
             playmode = await get_playmode(message.chat.id)
             playty = await get_playtype(message.chat.id)
             if playty != "Everyone" and message.from_user.id not in SUDOERS:
@@ -100,12 +103,16 @@ def PlayWrapper(command):
                 if message.from_user.id not in admins:
                     return await message.reply_text(_["play_4"])
 
+            # Determine video/audio flag
             video = (
                 True if message.command[0][0] == "v" or "-v" in message.text
                 else (True if message.command[0][1] == "v" else None)
             )
+
+            # Forced play
             fplay = True if message.command[0][-1] == "e" else None
 
+            # Assistant join check
             if not await is_active_chat(chat_id):
                 userbot = await get_assistant(chat_id)
                 try:
@@ -117,6 +124,7 @@ def PlayWrapper(command):
                 except UserNotParticipant:
                     logger.info("Assistant not in chat, generating invite...")
                     invitelink = links.get(chat_id)
+
                     if not invitelink:
                         if message.chat.username:
                             invitelink = message.chat.username
@@ -165,10 +173,7 @@ def PlayWrapper(command):
                     except Exception as e:
                         logger.warning(f"userbot.resolve_peer after join failed: {e}")
 
-            logger.info(
-                f"▶️ Play Command Triggered in {message.chat.title} [{chat_id}] by {message.from_user.first_name} [{message.from_user.id}]"
-            )
-
+            # All checks passed, run original command
             return await command(
                 client,
                 message,
