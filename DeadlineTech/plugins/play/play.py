@@ -260,7 +260,7 @@ async def play_commnd(
             cap = _["play_10"].format(details["title"], details["duration_min"])
         elif await SoundCloud.valid(url):
                 return await mystic.edit_text("This feature isn’t available.")
-         """try:
+            try:
                 details, track_path = await SoundCloud.download(url)
             except:
                 return await mystic.edit_text(_["play_3"])
@@ -300,7 +300,7 @@ async def play_commnd(
                 )
             except Exception as e:
                 return await mystic.edit_text(_["general_2"].format(type(e).__name__))
-            await mystic.edit_text(_["str_2"])"""
+            await mystic.edit_text(_["str_2"])
             try:
                 await stream(
                     _,
