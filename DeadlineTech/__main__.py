@@ -17,7 +17,7 @@ from config import BANNED_USERS
 
 async def init():
     # ✅ Enable global crash handler
-    setup_global_exception_handler()
+    setup_global_exception_handler()
 
   
     if (
