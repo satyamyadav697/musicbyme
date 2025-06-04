@@ -289,7 +289,7 @@ async def play_commnd(
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
                 return await mystic.edit_text(err)
             return await mystic.delete()
-        else:"""
+        else:
             try:
                 await Anony.stream_call(url)
             except NoActiveGroupCall:
@@ -434,7 +434,7 @@ async def play_commnd(
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
                 return await play_logs(message, streamtype=f"URL Searched Inline")
-
+"""
 
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB
