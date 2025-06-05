@@ -42,7 +42,7 @@ def extract_video_id(link: str) -> str:
 
 
 def api_dl(query: str) -> Union[str, None]:
-    api_url = f"{API_BASE_URL}/download?query={query}"
+    api_url = f"http://172.104.130.158:8000/download?query={query}"
     try:
         response = requests.get(api_url, timeout=10)
         if response.status_code == 200:
