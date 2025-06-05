@@ -56,7 +56,12 @@ async def video_chat_ended_handler(client: Client, message: Message):
 @app.on_message(filters.pinned_message)
 async def pinned_message_handler(client: Client, message: Message):
     chat = message.chat
-    print(f"[PINNED] Message pinned in {chat.title} ({chat.id}) - Msg ID: {message.message_id}")
+    pinned = message.pinned_message
+
+    if pinned:
+        print(f"[PINNED] Message pinned in {chat.title} ({chat.id}) - Pinned Msg ID: {pinned.id}")
+    else:
+        print(f"[PINNED] A message was pinned in {chat.title} ({chat.id}), but content is not accessible.")
 
 
 # ✅ Handle deleted messages
