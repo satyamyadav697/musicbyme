@@ -15,14 +15,17 @@ async def test_crash(_, message: Message):
 
 
 
-
-# ✅ Member joins, leaves, admin changes
+# ✅ Handle member joins, leaves, promotions, demotions
 @app.on_chat_member_updated()
 async def handle_member_update(client: Client, update: ChatMemberUpdated):
     user = update.from_user
     chat = update.chat
     old = update.old_chat_member
     new = update.new_chat_member
+
+    # Safely handle cases where old/new is None
+    if not old or not new:
+        return
 
     if old.status != new.status:
         if new.status == ChatMemberStatus.MEMBER:
@@ -35,32 +38,29 @@ async def handle_member_update(client: Client, update: ChatMemberUpdated):
             print(f"[DEMOTED] {user.first_name} ({user.id}) was demoted in {chat.title} ({chat.id})")
 
 
-# ✅ Video chat started (includes voice chat)
+# ✅ Handle video chat started (includes voice chats)
 @app.on_message(filters.video_chat_started)
 async def video_chat_started_handler(client: Client, message: Message):
     chat = message.chat
-    print(f"[VC STARTED] Video Chat started in {chat.title} ({chat.id})")
+    print(f"[VC STARTED] Video chat started in {chat.title} ({chat.id})")
 
 
-# ✅ Video chat ended
+# ✅ Handle video chat ended
 @app.on_message(filters.video_chat_ended)
 async def video_chat_ended_handler(client: Client, message: Message):
     chat = message.chat
-    print(f"[VC ENDED] Video Chat ended in {chat.title} ({chat.id})")
+    print(f"[VC ENDED] Video chat ended in {chat.title} ({chat.id})")
 
 
-# ✅ Message pinned
+# ✅ Handle pinned messages
 @app.on_message(filters.pinned_message)
 async def pinned_message_handler(client: Client, message: Message):
     chat = message.chat
     print(f"[PINNED] Message pinned in {chat.title} ({chat.id}) - Msg ID: {message.message_id}")
 
 
-# ✅ Message deleted
+# ✅ Handle deleted messages
 @app.on_deleted_messages()
-async def deleted_message_handler(client: Client, deleted):
-    chat = deleted.chat
-    for msg in deleted.messages:
-        print(f"[DELETED] A message was deleted in {chat.title} ({chat.id}) - Msg ID: {msg.id}")
-
-        print(f"[DELETED] Message deleted in {chat.title} - ID: {msg.id}")
+async def deleted_message_handler(client: Client, messages: list):
+    for msg in messages:
+        print(f"[DELETED] Message deleted in chat_id: {msg.chat.id} - Msg ID: {msg.id}")
