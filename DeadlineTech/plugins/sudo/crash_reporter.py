@@ -3,7 +3,7 @@
 from pyrogram import Client, filters
 from DeadlineTech.utils.crash_reporter import sudo_alert_on_crash
 from DeadlineTech import app
-from pyrogram.types import Message, ChatMemberUpdated, DeletedMessages
+from pyrogram.types import Message, ChatMemberUpdated
 from pyrogram.enums import ChatMemberStatus
 
 
@@ -58,7 +58,8 @@ async def pinned_message_handler(client: Client, message: Message):
 
 # ✅ Message deleted
 @app.on_deleted_messages()
-async def deleted_message_handler(client: Client, deleted: DeletedMessages):
-    chat = deleted.chat
-    for msg in deleted.messages:
-        print(f"[DELETED] A message was deleted in {chat.title} ({chat.id}) - Msg ID: {msg.id}")
+@app.on_deleted_messages()
+async def deleted_message_handler(client: Client, messages):
+    chat = messages.chat
+    for msg in messages.messages:
+        print(f"[DELETED] Message deleted in {chat.title} - ID: {msg.id}")
