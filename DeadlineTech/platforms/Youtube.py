@@ -21,7 +21,7 @@ import logging
 import requests
 import time
 
-from config import API_KEY, API_BASE_URL
+from config import API_BASE_URL
 
 MIN_FILE_SIZE = 51200
 
@@ -42,33 +42,21 @@ def extract_video_id(link: str) -> str:
     
 
 
-def api_dl(video_id: str) -> str | None:
-    api_url = f"{API_BASE_URL}/download/song/{video_id}?key={API_KEY}"
-    file_path = os.path.join("downloads", f"{video_id}.mp3")
-
-    # ✅ Check if already downloaded
-    if os.path.exists(file_path):
-        print(f"{file_path} already exists. Skipping download.")
-        return file_path
-
+def api_dl(query: str) -> Union[str, None]:
+    api_url = f"{API_BASE_URL}/download?query={query}"
     try:
-        response = requests.get(api_url, stream=True, timeout=10)
-
+        response = requests.get(api_url, timeout=10)
         if response.status_code == 200:
-            os.makedirs("downloads", exist_ok=True)
-            with open(file_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
+            data = response.json()
+            if "file_id" in data:
+                return data["file_id"]
+        print(f"API call failed or file_id not found: {response.status_code}")
+        return None
+    except requests.RequestException as e:
+        print(f"API call error: {e}")
+        return None
 
-            # ✅ Check file size
-            file_size = os.path.getsize(file_path)
-            if file_size < MIN_FILE_SIZE:
-                print(f"Downloaded file is too small ({file_size} bytes). Removing.")
-                os.remove(file_path)
-                return None
-
-            print(f"Song Downloaded Successfully {file_path} ({file_size} bytes)")
+            print(f"Downloaded {file_path} ({file_size} bytes)")
             return file_path
 
         else:
