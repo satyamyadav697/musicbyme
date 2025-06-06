@@ -148,7 +148,7 @@ async def send_audio_by_video_id(client: Client, message: Message, video_id: str
         caption = f"🎧 <b>{title}</b>\n🕒 Duration: {duration_str}"
         if video_url:
             caption += f"\n🔗 <a href=\"{video_url}\">Watch on YouTube</a>"
-        caption += "\n\n🎵 Powered by <a href=\"https://t.me/DeadlineTechTeam\">Team DeadlineTech</a>"
+        caption += "\n\n🎵 Powered by <a href=\"https://t.me/DeadlineTechTeam\">DeadlineTech</a>"
 
         audio_msg = await message.reply_audio(
             audio=file_path,
@@ -158,21 +158,6 @@ async def send_audio_by_video_id(client: Client, message: Message, video_id: str
             caption=caption,
             parse_mode="html"
         )
-
-        # Forward to save channel
-        if SAVE_CHANNEL_ID:
-            try:
-                await client.send_audio(
-                    chat_id=SAVE_CHANNEL_ID,
-                    audio=file_path,
-                    title=title,
-                    performer="DeadlineTech Bot",
-                    duration=duration,
-                    caption=caption,
-                    parse_mode="html"
-                )
-            except Exception as e:
-                print(f"❌ Error saving to channel: {e}")
 
         asyncio.create_task(remove_file_later(file_path, delay=600))
     else:
