@@ -42,7 +42,7 @@ This policy may be updated. We recommend reviewing it periodically.
 @app.on_message(filters.command("privacy"))
 async def privacy(client, message: Message):
   
-    # 💬 Reply with UI and text
+    # 💬 Reply with UI and text
     await message.reply_text(
         TEXT,
         parse_mode=ParseMode.MARKDOWN,
