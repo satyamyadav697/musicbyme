@@ -1,18 +1,15 @@
 # Powered by DeadlineTech
 
+
+import logging
 from pyrogram import Client, filters
-from DeadlineTech.utils.crash_reporter import sudo_alert_on_crash
 from DeadlineTech import app
 from pyrogram.types import Message, ChatMemberUpdated
 from pyrogram.enums import ChatMemberStatus
 
-
-@app.on_message(filters.command("testcrash"))
-@sudo_alert_on_crash
-async def test_crash(_, message: Message):
-    # Force a crash
-    1 / 0 
-
+# Setup logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 # ✅ Handle member joins, leaves, promotions, demotions
@@ -29,27 +26,27 @@ async def handle_member_update(client: Client, update: ChatMemberUpdated):
 
     if old.status != new.status:
         if new.status == ChatMemberStatus.MEMBER:
-            print(f"[JOIN] {user.first_name} ({user.id}) joined {chat.title} ({chat.id})")
+            logger.info(f"{user.id} joined {chat.id}")
         elif new.status == ChatMemberStatus.LEFT:
-            print(f"[LEAVE] {user.first_name} ({user.id}) left {chat.title} ({chat.id})")
+            logger.info(f"{user.id} left {chat.id}")
         elif new.status == ChatMemberStatus.ADMINISTRATOR:
-            print(f"[PROMOTED] {user.first_name} ({user.id}) was promoted in {chat.title} ({chat.id})")
+            logger.info(f"{user.id} was promoted in {chat.id}")
         elif old.status == ChatMemberStatus.ADMINISTRATOR and new.status != ChatMemberStatus.ADMINISTRATOR:
-            print(f"[DEMOTED] {user.first_name} ({user.id}) was demoted in {chat.title} ({chat.id})")
+            logger.info(f"{user.id} was demoted in {chat.id}")
 
 
 # ✅ Handle video chat started (includes voice chats)
 @app.on_message(filters.video_chat_started)
 async def video_chat_started_handler(client: Client, message: Message):
     chat = message.chat
-    print(f"[VC STARTED] Video chat started in {chat.title} ({chat.id})")
+    logger.info(f"Video chat started in {chat.id}")
 
 
 # ✅ Handle video chat ended
 @app.on_message(filters.video_chat_ended)
 async def video_chat_ended_handler(client: Client, message: Message):
     chat = message.chat
-    print(f"[VC ENDED] Video chat ended in {chat.title} ({chat.id})")
+    logger.info(f" Video chat ended in {chat.id}")
 
 
 # ✅ Handle pinned messages
@@ -59,13 +56,6 @@ async def pinned_message_handler(client: Client, message: Message):
     pinned = message.pinned_message
 
     if pinned:
-        print(f"[PINNED] Message pinned in {chat.title} ({chat.id}) - Pinned Msg ID: {pinned.id}")
+        logger.info(f"Message pinned in {chat.id} - Pinned Msg ID: {pinned.id}")
     else:
-        print(f"[PINNED] A message was pinned in {chat.title} ({chat.id}), but content is not accessible.")
-
-
-# ✅ Handle deleted messages
-@app.on_deleted_messages()
-async def deleted_message_handler(client: Client, messages: list):
-    for msg in messages:
-        print(f"[DELETED] Message deleted in chat_id: {msg.chat.id} - Msg ID: {msg.id}")
+        logger.info(f"A message was pinned in {chat.id}, but content is not accessible.")
