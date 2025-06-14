@@ -1,8 +1,12 @@
+# Powered By Team DeadlineTech
+
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ParseMode
+
 from DeadlineTech import app
 import config
+
 
 TEXT = f"""
 🔒 **Privacy Policy for {app.mention}**
@@ -10,31 +14,46 @@ TEXT = f"""
 We value your privacy and are committed to protecting your personal information when you use our Telegram voice chat player bot.
 
 **What Data We Collect:**
-We do **not** collect or store any personal data such as your name, phone number, messages, or media. The bot only processes commands and streams audio as requested, using Telegram's secure infrastructure.
+We do **not** collect or store any personal data such as your name, phone number, messages, or media.
 
 **How We Use Your Data:**
-Any data processed during your interaction with the bot (such as your commands or voice chat activity) remains confidential and is used solely to provide the requested services. We do **not** monitor, record, or log your conversations or actions.
+Your interaction (like commands or voice activity) remains confidential and is only used to provide requested services.
 
 **Data Sharing and Selling:**
-We respect your trust. We do **not** share, sell, or distribute any information to third parties, advertisers, or other organizations. Your data remains private and is never used for any unofficial purposes.
+We do **not** share, sell, or distribute any information. Your data remains completely private.
 
 **Security Measures:**
-Our bot operates within Telegram’s secure ecosystem, which employs end-to-end encryption for voice chats and messages. We take no additional steps to access or store your private data.
+Our bot operates under Telegram’s secure infrastructure, with no external data logging.
 
 **Your Control:**
-You maintain full control over your Telegram account and can revoke access or delete your data at any time by simply stopping the use of this bot or removing it from your chats.
+You're free to remove the bot or revoke access anytime.
 
 **Updates to this Policy:**
-This privacy policy may be updated from time to time to reflect changes in practices or regulations. We encourage you to review this policy periodically.
+This policy may be updated. We recommend reviewing it periodically.
 
-**Contact Us:**
-If you have questions or concerns about your privacy or how we handle data, please reach out to our support team for assistance.
+📎 **Full Privacy Document**: [View Here](https://telegra.ph/Privacy-Policy-Bot-Hub-12-18-2)
 
-For more details, please visit our official Privacy Policy here: [Privacy Policy](https://telegra.ph/Privacy-Policy-Bot-Hub-12-18-2).
+---
 
-Thank you for trusting {app.mention} with your Telegram voice chat experience. We are dedicated to providing a safe, secure, and private environment.
+🤖 Powered with ❤️ by **Team DeadlineTech** – committed to open, safe, and secure bot experiences.
 """
 
+# 📍 Privacy Command Handler
 @app.on_message(filters.command("privacy"))
 async def privacy(client, message: Message):
-    await message.reply_text(TEXT, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+    keyboard = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("🔗 View Policy", url="https://telegra.ph/Privacy-Policy-Bot-Hub-12-18-2")],
+            [InlineKeyboardButton("💬 Support", url=config.SUPPORT_CHAT)],
+            [InlineKeyboardButton("👥 Add to Group", url=f"https://t.me/{app.username}?startgroup=true")],
+            [InlineKeyboardButton("❤️ Team DeadlineTech", url="https://t.me/DeadlineTechTeam")],
+        ]
+    )
+
+    # 💬 Reply with UI and text
+    await message.reply_text(
+        TEXT,
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+        reply_markup=keyboard,
+    )
