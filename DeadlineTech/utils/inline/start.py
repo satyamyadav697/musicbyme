@@ -6,7 +6,7 @@ def start_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text="➕ Add Me to Group",
+                text=_["S_B_1"],
                 url=f"https://t.me/{app.username}?startgroup=true"
             ), 
             InlineKeyboardButton(text="💬 Support", url=config.SUPPORT_CHAT)
@@ -25,17 +25,17 @@ def private_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text="➕ Add Me to Group",
+                text=_["S_B_3"],
                 url=f"https://t.me/{app.username}?startgroup=true"
             )
         ],
         [
-            InlineKeyboardButton(text="🆘 Help & Commands", callback_data="settings_back_helper")
+            InlineKeyboardButton(text=_["S_B_4"], callback_data="settings_back_helper")
         ],
 
         [
-            InlineKeyboardButton(text="💬 Support", url=config.SUPPORT_CHAT),
-            InlineKeyboardButton(text="📢 Updates", url=config.SUPPORT_CHANNEL)
+            InlineKeyboardButton(text=_["S_B_9"], url=config.SUPPORT_CHAT),
+            InlineKeyboardButton(text=_["S_B_7"], url=config.SUPPORT_CHANNEL)
         ],
         [
             InlineKeyboardButton(text=_["S_B_6"], web_app=WebAppInfo(url="https://vps-kappa.vercel.app")), 
