@@ -38,6 +38,7 @@ def private_panel(_):
             InlineKeyboardButton(text="📢 Updates", url=config.SUPPORT_CHANNEL)
         ],
         [
+            InlineKeyboardButton(text=_["S_B_6"], web_app=WebAppInfo(url="https://vps-kappa.vercel.app")), 
             InlineKeyboardButton(text="💻 Source Code", url="https://github.com/DeadlineTech/music")
         ]
     ]
