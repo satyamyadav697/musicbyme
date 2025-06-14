@@ -62,6 +62,7 @@ DeadlineTech Music
 | `/resume` | Resume playback |
 | `/skip` | Skip current song |
 | `/end` | End stream & clear queue |
+| `/music` | for Downloading the music from Yt |
 
 ### 📋 Queue Commands
 | Command | Description |
