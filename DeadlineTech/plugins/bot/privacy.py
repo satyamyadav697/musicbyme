@@ -41,19 +41,10 @@ This policy may be updated. We recommend reviewing it periodically.
 # 📍 Privacy Command Handler
 @app.on_message(filters.command("privacy"))
 async def privacy(client, message: Message):
-    keyboard = InlineKeyboardMarkup(
-        [
-            [InlineKeyboardButton("🔗 View Policy", url="https://telegra.ph/Privacy-Policy-Bot-Hub-12-18-2")],
-            [InlineKeyboardButton("💬 Support", url=config.SUPPORT_CHAT)],
-            [InlineKeyboardButton("👥 Add to Group", url=f"https://t.me/{app.username}?startgroup=true")],
-            [InlineKeyboardButton("❤️ Team DeadlineTech", url="https://t.me/DeadlineTechTeam")],
-        ]
-    )
-
+  
     # 💬 Reply with UI and text
-    await message.reply_text(
-        TEXT,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True,
-        reply_markup=keyboard,
-    )
+    await message.reply_text(
+        TEXT,
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True
+   )
