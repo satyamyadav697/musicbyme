@@ -9,11 +9,11 @@ def start_panel(_):
                 text=_["S_B_1"],
                 url=f"https://t.me/{app.username}?startgroup=true"
             ), 
-            InlineKeyboardButton(text="💬 Support", url=config.SUPPORT_CHAT)
+            InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_CHAT)
         ],
         [
             InlineKeyboardButton(
-                text="💻 Source Code",
+                text=_["S_B_5"],
                 url="https://github.com/DeadlineTech/music"
             )
         ]
@@ -39,7 +39,7 @@ def private_panel(_):
         ],
         [
             InlineKeyboardButton(text=_["S_B_6"], web_app=WebAppInfo(url="https://vps-kappa.vercel.app")), 
-            InlineKeyboardButton(text="💻 Source Code", url="https://github.com/DeadlineTech/music")
+            InlineKeyboardButton(text=_["S_B_5"], url="https://github.com/DeadlineTech/music")
         ]
     ]
     return buttons
