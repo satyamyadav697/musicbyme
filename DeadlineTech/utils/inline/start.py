@@ -1,34 +1,44 @@
-from pyrogram.types import InlineKeyboardButton
-from pyrogram.types import WebAppInfo
-
+from pyrogram.types import InlineKeyboardButton, WebAppInfo
 import config
 from DeadlineTech import app
-
 
 def start_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text=_["S_B_1"], url=f"https://t.me/{app.username}?startgroup=true"
-            ),
-            InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_CHAT),
+                text="➕ Add Me to Group",
+                url=f"https://t.me/{app.username}?startgroup=true"
+            ), 
+            InlineKeyboardButton(text="💬 Support", url=config.SUPPORT_CHAT)
         ],
+        [
+            InlineKeyboardButton(
+                text="💻 Source Code",
+                url="https://github.com/DeadlineTech/music"
+            )
+        ]
     ]
     return buttons
 
 
 def private_panel(_):
     buttons = [
-        [InlineKeyboardButton(text=_["S_B_6"], web_app=WebAppInfo(url="https://deadlinetech.site"))],
-        [
-            InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_CHAT),
-            InlineKeyboardButton(text=_["S_B_7"], url=config.SUPPORT_CHANNEL),
-        ],
         [
             InlineKeyboardButton(
-                text=_["S_B_3"],
-                url=f"https://t.me/{app.username}?startgroup=true",
+                text="➕ Add Me to Group",
+                url=f"https://t.me/{app.username}?startgroup=true"
             )
         ],
+        [
+            InlineKeyboardButton(text="🆘 Help & Commands", callback_data="settings_back_helper")
+        ],
+
+        [
+            InlineKeyboardButton(text="💬 Support", url=config.SUPPORT_CHAT),
+            InlineKeyboardButton(text="📢 Updates", url=config.SUPPORT_CHANNEL)
+        ],
+        [
+            InlineKeyboardButton(text="💻 Source Code", url="https://github.com/DeadlineTech/music")
+        ]
     ]
     return buttons
