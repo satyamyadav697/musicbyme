@@ -1,4 +1,4 @@
-HELP_1 = """<b><u>𝖠𝖣𝖬𝖨𝖭 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲 🎧</u></b>
+HELP_1 = """<b><u>𝖠𝖣𝖬𝖨𝖭 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲</u></b> 🎧
 
 💡 𝖳𝗂𝗉: To control music in a channel, just add <b>𝖼</b> at the beginning of the command.  
 Example: <code>/cpause</code>
@@ -12,7 +12,7 @@ Example: <code>/cpause</code>
 """
 
 HELP_2 = """
-<b><u>𝖠𝖴𝖳𝖧 𝖴𝖲𝖤𝖱𝖲 🔐</u></b>
+<b><u>𝖠𝖴𝖳𝖧 𝖴𝖲𝖤𝖱𝖲</u></b> 🔐
 
 👤 <b>Auth users</b> can use admin-level commands in the bot <i>without</i> being actual chat admins.
 
@@ -22,7 +22,7 @@ HELP_2 = """
 """
 
 HELP_3 = """
-<b><u>𝖢𝖫𝖮𝖭𝖨𝖭𝖦 𝖠 𝖡𝖮𝖳 🤖</u></b>
+<b><u>𝖢𝖫𝖮𝖭𝖨𝖭𝖦 𝖠 𝖡𝖮𝖳</u></b> 🤖
 
 ✨ <b>Create your own bot clone easily by following these steps:</b>
 
@@ -42,7 +42,7 @@ HELP_3 = """
 """
 
 HELP_4 = """
-<b><u>𝖢𝖧𝖠𝖳 𝖡𝖫𝖠𝖢𝖪𝖫𝖨𝖲𝖳 🚫</u></b> <i>[Sudo Users Only]</i>
+<b><u>𝖢𝖧𝖠𝖳 𝖡𝖫𝖠𝖢𝖪𝖫𝖨𝖲𝖳</u></b> 🚫 <i>[Sudo Users Only]</i>
 
 🛡️ <b>Restrict unwanted or abusive chats</b> from accessing the bot to keep it safe and focused.
 
@@ -54,7 +54,7 @@ HELP_4 = """
 """
 
 HELP_5 = """
-<b><u>𝖡𝖫𝖮𝖢𝖪 𝖴𝖲𝖤𝖱𝖲 🚷</u></b> <i>[Sudo Users Only]</i>
+<b><u>𝖡𝖫𝖮𝖢𝖪 𝖴𝖲𝖤𝖱𝖲</u></b> 🚷 <i>[Sudo Users Only]</i>
 
 ⛔ <b>Block users from interacting with the bot commands entirely.</b> This helps prevent spam or misuse.
 
@@ -66,7 +66,7 @@ HELP_5 = """
 """
 
 HELP_6 = """
-<b><u>𝖢𝖧𝖠𝖭𝖭𝖤𝖫 𝖯𝖫𝖠𝖸 📡</u></b>
+<b><u>𝖢𝖧𝖠𝖭𝖭𝖤𝖫 𝖯𝖫𝖠𝖸</u></b> 📡
 
 🎙️ <b>Stream audio or video directly in your connected channel's video chat!</b>
 
@@ -81,7 +81,7 @@ HELP_6 = """
 
 
 HELP_7 = """
-<b><u>𝖠𝖢𝖳𝖨𝖵𝖤 𝖢𝖠𝖫𝖫𝖲 📶</u></b> <i>[Sudo Users Only]</i>
+<b><u>𝖠𝖢𝖳𝖨𝖵𝖤 𝖢𝖠𝖫𝖫𝖲</u></b> 📶 <i>[Sudo Users Only]</i>
 
 🎧 <b>Monitor all active voice and video streams across the bot's network.</b>
 
@@ -91,7 +91,7 @@ HELP_7 = """
 """
 
 HELP_8 = """
-<b><u>𝖫𝖮𝖮𝖯 𝖲𝖳𝖱𝖤𝖠𝖬 🔁</u></b>
+<b><u>𝖫𝖮𝖮𝖯 𝖲𝖳𝖱𝖤𝖠𝖬</u></b> 🔁
 
 🔂 <b>Loop the currently playing stream automatically.</b>
 
@@ -106,7 +106,7 @@ Use this to play the same track multiple times without re-queuing it manually.
 
 
 HELP_9 = """
-<b><u>𝖬𝖠𝖨𝖭𝖳𝖤𝖭𝖠𝖭𝖢𝖤 𝖬𝖮𝖣𝖤 🛠️</u></b> <i>[Sudo Users Only]</i>
+<b><u>𝖬𝖠𝖨𝖭𝖳𝖤𝖭𝖠𝖭𝖢𝖤 𝖬𝖮𝖣𝖤</u></b> 🛠️ <i>[Sudo Users Only]</i>
 
 👨‍💻 <b>Essential tools for bot management and debugging.</b>
 
@@ -123,7 +123,7 @@ HELP_9 = """
 
 
 HELP_10 = """
-<b><u>𝖯𝖨𝖭𝖦 & 𝖲𝖳𝖠𝖳𝖲 📊</u></b>
+<b><u>𝖯𝖨𝖭𝖦 & 𝖲𝖳𝖠𝖳𝖲</u></b> 📊
 
 📌 <b>Monitor the bot's performance and get quick access to system status.</b>
 
@@ -140,7 +140,7 @@ HELP_10 = """
 
 
 HELP_11 = """
-<b><u>𝖯𝖫𝖠𝖸 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲 🎶</u></b>
+<b><u>𝖯𝖫𝖠𝖸 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲</u></b> 🎶
 
 🎥 <b>v</b> = Play in video mode  
 ⚡ <b>force</b> = Force play (interrupts current stream)
@@ -156,7 +156,7 @@ HELP_11 = """
 
 
 HELP_12 = """
-<b><u>𝖲𝖧𝖴𝖥𝖥𝖫𝖤 𝖰𝖴𝖤𝖴𝖤 🔀</u></b>
+<b><u>𝖲𝖧𝖴𝖥𝖥𝖫𝖤 𝖰𝖴𝖤𝖴𝖤</u></b> 🔀
 
 🎲 <b>/shuffle</b> – Randomly reshuffles the current queue of tracks.  
   • Great for mixing things up when you want a fresh order of playback.
@@ -169,7 +169,7 @@ HELP_12 = """
 
 
 HELP_13 = """
-<b><u>𝖲𝖤𝖤𝖪 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲 ⏩⏪</u></b>
+<b><u>𝖲𝖤𝖤𝖪 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲</u></b> ⏩⏪
 
 🎯 <b>/seek [seconds]</b> – Jumps forward in the currently playing stream by the specified number of seconds.  
   • Example: <code>/seek 60</code> will jump forward 1 minute.
@@ -182,7 +182,7 @@ HELP_13 = """
 
 
 HELP_14 = """
-<b><u>𝖡𝖱𝖮𝖠𝖣𝖢𝖠𝖲𝖳 𝖥𝖤𝖠𝖳𝖴𝖱𝖤 📢</u></b> <i>[Only for Sudo Users]</i>
+<b><u>𝖡𝖱𝖮𝖠𝖣𝖢𝖠𝖲𝖳 𝖥𝖤𝖠𝖳𝖴𝖱𝖤</u></b> 📢 <i>[Only for Sudo Users]</i>
 
 🗣️ <b>/broadcast [message or reply]</b> – Sends your message to multiple users and chats using different modes.  
   • Supports multiple tags to control where and how it's sent.
@@ -203,7 +203,7 @@ HELP_14 = """
  
 
 HELP_15 = """
-<b><u>𝖲𝖯𝖤𝖤𝖣 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲 ⚡</u></b> <i>[Admins Only]</i>
+<b><u>𝖲𝖯𝖤𝖤𝖣 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲</u></b> ⚡ <i>[Admins Only]</i>
 
 🎧 <b>/speed</b> or <b>/playback</b> – Adjust the playback speed of the ongoing stream in group chats.  
 🎙️ <b>/cspeed</b> or <b>/cplayback</b> – Modify the playback speed for channel-linked streams.
