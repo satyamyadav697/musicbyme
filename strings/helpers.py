@@ -81,7 +81,7 @@ HELP_6 = """
 
 
 HELP_7 = """
-<b><u>𝖠𝖢𝖳𝖨𝖵𝖤 𝖢𝖠𝖫𝖫𝖲</u></b> 📶 [Sudo Users Only]
+<b><u>𝖠𝖢𝖳𝖨𝖵𝖤 𝖢𝖠𝖫𝖫𝖲</u></b> [Sudo Users Only]
 
 🎧 <b>Monitor all active voice and video streams across the bot's network.</b>
 
