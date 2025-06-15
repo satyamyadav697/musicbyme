@@ -1,3 +1,5 @@
+# All Rights Reserved by Team DeadlineTech ©
+
 from pyrogram import Client
 import config
 from ..logging import LOGGER
