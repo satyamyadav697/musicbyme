@@ -42,7 +42,7 @@ HELP_3 = """
 """
 
 HELP_4 = """
-<b><u>𝖢𝖧𝖠𝖳 𝖡𝖫𝖠𝖢𝖪𝖫𝖨𝖲𝖳</u></b> 🚫 <i>[Sudo Users Only]</i>
+<b><u>𝖢𝖧𝖠𝖳 𝖡𝖫𝖠𝖢𝖪𝖫𝖨𝖲𝖳</u></b> 🚫 [Sudo Users Only]
 
 🛡️ <b>Restrict unwanted or abusive chats</b> from accessing the bot to keep it safe and focused.
 
@@ -54,7 +54,7 @@ HELP_4 = """
 """
 
 HELP_5 = """
-<b><u>𝖡𝖫𝖮𝖢𝖪 𝖴𝖲𝖤𝖱𝖲</u></b> 🚷 <i>[Sudo Users Only]</i>
+<b><u>𝖡𝖫𝖮𝖢𝖪 𝖴𝖲𝖤𝖱𝖲</u></b> 🚷 [Sudo Users Only]
 
 ⛔ <b>Block users from interacting with the bot commands entirely.</b> This helps prevent spam or misuse.
 
@@ -81,7 +81,7 @@ HELP_6 = """
 
 
 HELP_7 = """
-<b><u>𝖠𝖢𝖳𝖨𝖵𝖤 𝖢𝖠𝖫𝖫𝖲</u></b> 📶 <i>[Sudo Users Only]</i>
+<b><u>𝖠𝖢𝖳𝖨𝖵𝖤 𝖢𝖠𝖫𝖫𝖲</u></b> 📶 [Sudo Users Only]
 
 🎧 <b>Monitor all active voice and video streams across the bot's network.</b>
 
@@ -106,7 +106,7 @@ Use this to play the same track multiple times without re-queuing it manually.
 
 
 HELP_9 = """
-<b><u>𝖬𝖠𝖨𝖭𝖳𝖤𝖭𝖠𝖭𝖢𝖤 𝖬𝖮𝖣𝖤</u></b> 🛠️ <i>[Sudo Users Only]</i>
+<b><u>𝖬𝖠𝖨𝖭𝖳𝖤𝖭𝖠𝖭𝖢𝖤 𝖬𝖮𝖣𝖤</u></b> 🛠️ [Sudo Users Only]
 
 👨‍💻 <b>Essential tools for bot management and debugging.</b>
 
@@ -182,7 +182,7 @@ HELP_13 = """
 
 
 HELP_14 = """
-<b><u>𝖡𝖱𝖮𝖠𝖣𝖢𝖠𝖲𝖳 𝖥𝖤𝖠𝖳𝖴𝖱𝖤</u></b> 📢 <i>[Only for Sudo Users]</i>
+<b><u>𝖡𝖱𝖮𝖠𝖣𝖢𝖠𝖲𝖳 𝖥𝖤𝖠𝖳𝖴𝖱𝖤</u></b> 📢 [Only for Sudo Users]
 
 🗣️ <b>/broadcast [message or reply]</b> – Sends your message to multiple users and chats using different modes.  
   • Supports multiple tags to control where and how it's sent.
@@ -203,7 +203,7 @@ HELP_14 = """
  
 
 HELP_15 = """
-<b><u>𝖲𝖯𝖤𝖤𝖣 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲</u></b> ⚡ <i>[Admins Only]</i>
+<b><u>𝖲𝖯𝖤𝖤𝖣 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲</u></b> ⚡ [Admins Only]
 
 🎧 <b>/speed</b> or <b>/playback</b> – Adjust the playback speed of the ongoing stream in group chats.  
 🎙️ <b>/cspeed</b> or <b>/cplayback</b> – Modify the playback speed for channel-linked streams.
