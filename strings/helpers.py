@@ -77,7 +77,8 @@ HELP_6 = """
 📡 <b>/channelplay [chat username or ID]</b> – Connect a channel to the group and control playback from the group itself.  
 🔄 <b>/channelplay disable</b> – Disconnect the linked channel.
 
-<i>➤ Make sure the bot has required permissions and is an admin in both the gro
+<i>➤ Make sure the bot has required permissions and is an admin in both the group 
+"""
 
 
 HELP_7 = """
