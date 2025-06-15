@@ -83,11 +83,11 @@ HELP_6 = """
 HELP_7 = """
 <b><u>𝖠𝖢𝖳𝖨𝖵𝖤 𝖢𝖠𝖫𝖫𝖲</u></b> [Sudo Users Only]
 
-🎧 <b>Monitor all active voice and video streams across the bot's network.</b>
+ <b>Monitor all active voice and video streams across the bot's network.</b>
 
 🔹 <b>/activecalls</b> or <b>/acalls</b> – Shows a complete list of ongoing voice/video calls across all groups where the bot is active.
 
-📊 <i>This command helps you keep track of live streams handled by the bot in real-time.</i>
+💠 This command helps you keep track of live streams handled by the bot in real-time.</i>
 """
 
 HELP_8 = """
