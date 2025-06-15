@@ -1,3 +1,11 @@
+
+# ==========================================================
+# 🔒 All Rights Reserved © Team DeadlineTech
+# 📁 This file is part of the DeadlineTech Project.
+# ==========================================================
+
+
+
 import asyncio
 import os
 from datetime import datetime, timedelta
