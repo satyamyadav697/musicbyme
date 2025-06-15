@@ -42,13 +42,13 @@ async def on_new_chat_members(client: Client, message: Message):
                 )
 
                 log_text = (
-                    "<b>🚀 Bot Added Successfully!</b>\n\n"
-                    "╭───────⍟\n"
-                    f"├ 💬 <b>Chat Name:</b> <code>{chat_title}</code>\n"
-                    f"├ 🆔 <b>Chat ID:</b> <code>{chat_id}</code>\n"
-                    f"├ 🌐 <b>Username:</b> {chat_username}\n"
-                    f"└ 👤 <b>Added By:</b> {added_by}\n"
-                    "╰─────────────⍟"
+                    "<b>🚀 Bot Added Successfully!</b>\n\n"
+                    "╭───────⍟\n"
+                    f"├ 💬 <b>Chat Name:</b> <code>{chat_title}</code>\n"
+                    f"├ 🆔 <b>Chat ID:</b> <code>{chat_id}</code>\n"
+                    f"├ 🌐 <b>Username:</b> {chat_username}\n"
+                    f"└ 👤 <b>Added By:</b> {added_by}\n"
+                    "╰─────────────⍟"
                 )
 
                 buttons = [[InlineKeyboardButton("➤ Link 🔗", url=chat_link)]] if chat_link else None
