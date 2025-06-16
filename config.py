@@ -22,9 +22,6 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 60))
 
-# Set this to true if you want post ads automatically
-ADS_MODE = getenv("ADS_MODE", None)
-
 # Chat id of a group for logging bot's activities
 LOGGER_ID = int(getenv("LOGGER_ID", None))
 
