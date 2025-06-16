@@ -88,36 +88,36 @@ def parse_duration(duration: str) -> int:
 @app.on_message(filters.command(["song", "music"]))
 async def song_command(client: Client, message: Message):
     if len(message.command) < 2:
-        return await message.reply_text("🎧 <b>𝖴𝗌𝖺𝗀𝖾:</b> /music [song name or YouTube link]")
+        return await message.reply_text("🎧 <b>𝖴𝗌𝖺𝗀𝖾:</b> <code>/music [song name or YouTube link]</code>")
 
     query = message.text.split(None, 1)[1].strip()
     video_id = extract_video_id(query)
 
     if video_id:
-        msg = await message.reply_text("🎼 <i>𝖥𝖾𝗍𝖼𝗁𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...</i>")
+        msg = await message.reply_text("🎼 𝖥𝖾𝗍𝖼𝗁𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...")
         await send_audio(client, msg, video_id)
     else:
         try:
             results = (await VideosSearch(query, limit=5).next()).get('result', [])
             if not results:
-                return await message.reply_text("❌ <b>𝖭𝗈 𝗌𝗈𝗇𝗀𝗌 𝖿𝗈𝗎𝗇𝖽.</b>")
+                return await message.reply_text("❌ 𝖭𝗈 𝗌𝗈𝗇𝗀𝗌 𝖿𝗈𝗎𝗇𝖽.")
             buttons = [[
-                InlineKeyboardButton(f"🎵 {video['title'][:30]}{'...' if len(video['title']) > 30 else ''}",
+                InlineKeyboardButton(f"🎙 {video['title'][:30]}{'...' if len(video['title']) > 30 else ''}",
                                      callback_data=f"dl_{video['id']}")
             ] for video in results]
             await message.reply_text(
-                "🎧 <b>𝖲𝖾𝗅𝖾𝖼𝗍 𝖺 𝗌𝗈𝗇𝗀:</b>",
+                "🎧 𝖲𝖾𝗅𝖾𝖼𝗍 𝖺 𝗌𝗈𝗇𝗀:",
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
         except Exception as e:
             logger.error(f"Search error: {e}")
-            await message.reply_text("⚠️ <b>𝖤𝗋𝗋𝗈𝗋 𝗐𝗁𝗂𝗅𝖾 𝗌𝖾𝖺𝗋𝖼𝗁𝗂𝗇𝗀.</b>")
+            await message.reply_text("⚠️ 𝖤𝗋𝗋𝗈𝗋 𝗐𝗁𝗂𝗅𝖾 𝗌𝖾𝖺𝗋𝖼𝗁𝗂𝗇𝗀.")
 
 @app.on_callback_query(filters.regex(r"^dl_(.+)$"))
 async def callback_handler(client: Client, cq: CallbackQuery):
     video_id = cq.data.split("_", 1)[1]
     await cq.answer()
-    await cq.message.edit("⏳ <i>𝖯𝗋𝗈𝖼𝖾𝗌𝗌𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...</i>")
+    await cq.message.edit("⏳ 𝖯𝗋𝗈𝖼𝖾𝗌𝗌𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...")
     await send_audio(client, cq.message, video_id)
 
 async def send_audio(client: Client, message: Message, video_id: str):
@@ -135,9 +135,9 @@ async def send_audio(client: Client, message: Message, video_id: str):
     file_path = await asyncio.to_thread(api_dl, video_id)
 
     if not file_path:
-        return await message.edit("❌ <b>𝖢𝗈𝗎𝗅𝖽𝗇’𝗍 𝖽𝗈𝗐𝗇𝗅𝗈𝖺𝖽 𝗍𝗁𝖾 𝗌𝗈𝗇𝗀.</b>")
+        return await message.edit("❌ 𝖢𝗈𝗎𝗅𝖽𝗇’𝗍 𝖽𝗈𝗐𝗇𝗅𝗈𝖺𝖽 𝗍𝗁𝖾 𝗌𝗈𝗇𝗀.")
 
-    await message.edit("🎶 <b>𝖲𝖾𝗇𝖽𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...</b>")
+    await message.edit("🎶 𝖲𝖾𝗇𝖽𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...")
 
     await message.reply_audio(
         audio=file_path,
