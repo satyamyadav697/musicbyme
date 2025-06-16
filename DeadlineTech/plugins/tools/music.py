@@ -1,4 +1,8 @@
-# 🎿 DeadlineTech Music Bot (Powered by Team DeadlineTech)
+# ==========================================================
+# 🔒 All Rights Reserved © Team DeadlineTech
+# 📁 This file is part of the DeadlineTech Project.
+# ==========================================================
+
 
 import os
 import re
@@ -29,7 +33,6 @@ MIN_FILE_SIZE = 51200
 DOWNLOADS_DIR = "downloads"
 os.makedirs(DOWNLOADS_DIR, exist_ok=True)
 
-# 🔍 Extract YouTube video ID
 def extract_video_id(link: str) -> str | None:
     patterns = [
         r'youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=)([0-9A-Za-z_-]{11})',
@@ -41,7 +44,6 @@ def extract_video_id(link: str) -> str | None:
             return match.group(1)
     return None
 
-# 📸 Download thumbnail
 def download_thumbnail(video_id: str) -> str | None:
     try:
         url = f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg"
@@ -52,7 +54,6 @@ def download_thumbnail(video_id: str) -> str | None:
         logger.warning(f"Thumbnail error: {e}")
         return None
 
-# 🔽 API Downloader
 def api_dl(video_id: str) -> str | None:
     try:
         url = f"{API_BASE_URL}/download/song/{video_id}?key={API_KEY}"
@@ -73,13 +74,6 @@ def api_dl(video_id: str) -> str | None:
         logger.error(f"Download failed: {e}")
     return None
 
-# ⏳ Delayed cleanup
-async def remove_file_later(path: str, delay: int = 600):
-    await asyncio.sleep(delay)
-    if os.path.exists(path):
-        os.remove(path)
-        logger.info(f"Deleted: {path}")
-
 def parse_duration(duration: str) -> int:
     parts = list(map(int, duration.split(":")))
     if len(parts) == 3:
@@ -91,48 +85,41 @@ def parse_duration(duration: str) -> int:
         return int(parts[0])
     return h * 3600 + m * 60 + s
 
-# 🎵 Command Handler
 @app.on_message(filters.command(["song", "music"]))
 async def song_command(client: Client, message: Message):
     if len(message.command) < 2:
-        return await message.reply_text(
-            "🎶 <b>Usage:</b>\nSend <code>/music [song name or YouTube link]</code> to get a track!"
-        )
+        return await message.reply_text("🎧 <b>𝖴𝗌𝖺𝗀𝖾:</b> /music [song name or YouTube link]")
 
     query = message.text.split(None, 1)[1].strip()
     video_id = extract_video_id(query)
 
     if video_id:
-        await message.reply_text("🎼 <i>Fetching your track...</i>")
-        await send_audio(client, message, video_id)
+        msg = await message.reply_text("🎼 <i>𝖥𝖾𝗍𝖼𝗁𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...</i>")
+        await send_audio(client, msg, video_id)
     else:
-        await message.reply_text("🔍 <i>Searching YouTube...</i>")
         try:
             results = (await VideosSearch(query, limit=5).next()).get('result', [])
             if not results:
-                return await message.reply_text("❌ <b>No songs found.</b> Try something else.")
+                return await message.reply_text("❌ <b>𝖭𝗈 𝗌𝗈𝗇𝗀𝗌 𝖿𝗈𝗎𝗇𝖽.</b>")
             buttons = [[
                 InlineKeyboardButton(f"🎵 {video['title'][:30]}{'...' if len(video['title']) > 30 else ''}",
                                      callback_data=f"dl_{video['id']}")
             ] for video in results]
             await message.reply_text(
-                "🎧 <b>Choose your song:</b>",
+                "🎧 <b>𝖲𝖾𝗅𝖾𝖼𝗍 𝖺 𝗌𝗈𝗇𝗀:</b>",
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
         except Exception as e:
             logger.error(f"Search error: {e}")
-            await message.reply_text("⚠️ <b>Error while searching.</b> Try again later.")
+            await message.reply_text("⚠️ <b>𝖤𝗋𝗋𝗈𝗋 𝗐𝗁𝗂𝗅𝖾 𝗌𝖾𝖺𝗋𝖼𝗁𝗂𝗇𝗀.</b>")
 
-# 🔘 Callback for selected song
 @app.on_callback_query(filters.regex(r"^dl_(.+)$"))
 async def callback_handler(client: Client, cq: CallbackQuery):
     video_id = cq.data.split("_", 1)[1]
-    await cq.answer("🎶 Downloading...")
-    await cq.message.edit("⏳ <i>Processing your track...</i>")
+    await cq.answer()
+    await cq.message.edit("⏳ <i>𝖯𝗋𝗈𝖼𝖾𝗌𝗌𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...</i>")
     await send_audio(client, cq.message, video_id)
-    await cq.message.edit("✅ <b>Done!</b> Use /music to get more songs 🎵")
 
-# 📤 Send Audio Function
 async def send_audio(client: Client, message: Message, video_id: str):
     try:
         result = (await VideosSearch(video_id, limit=1).next())["result"][0]
@@ -148,21 +135,19 @@ async def send_audio(client: Client, message: Message, video_id: str):
     file_path = await asyncio.to_thread(api_dl, video_id)
 
     if not file_path:
-        return await message.reply_text("❌ <b>Couldn’t download the song.</b> Try a different one.")
+        return await message.edit("❌ <b>𝖢𝗈𝗎𝗅𝖽𝗇’𝗍 𝖽𝗈𝗐𝗇𝗅𝗈𝖺𝖽 𝗍𝗁𝖾 𝗌𝗈𝗇𝗀.</b>")
 
-    audio_msg = await message.reply_audio(
+    await message.edit("🎶 <b>𝖲𝖾𝗇𝖽𝗂𝗇𝗀 𝗍𝗋𝖺𝖼𝗄...</b>")
+
+    await message.reply_audio(
         audio=file_path,
         title=title,
         performer="DeadlineTech",
         duration=duration,
-        caption=f"🎿 <b>{title}</b>\n🕒 <b>Duration:</b> {duration_str}\n🔗 <a href=\"{url}\">YouTube</a>\n\n🔧 <b>Powered by:</b> <a href=\"https://t.me/DeadlineTechTeam\">Team DeadlineTech</a>\n🤝 <i>Want to contribute?</i> Check our bot repo!",
+        caption=f"🎿 <b>{title}</b>\n🕒 <b>Duration:</b> {duration_str}\n🔗 <a href=\"{url}\">YouTube</a>\n\n🔧 <b>Powered by:</b> <a href=\"https://t.me/DeadlineTechTeam\">Team DeadlineTech</a>",
         thumb=thumb_path if thumb_path else None,
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("🎧 More Music", url="https://t.me/DeadlineTechMusic")],
-            [InlineKeyboardButton("💻 Contribute", url="https://github.com/DeadlineTech/music")]  
+            [InlineKeyboardButton("💻 Contribute", url="https://github.com/DeadlineTech/music")]
         ])
     )
-
-    if thumb_path:
-        asyncio.create_task(remove_file_later(thumb_path))
-    asyncio.create_task(remove_file_later(file_path))
