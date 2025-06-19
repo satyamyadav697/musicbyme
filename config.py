@@ -38,7 +38,7 @@ UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
     "https://github.com/satyamyadav697/musicbyme",
 )
-UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
+UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = getenv(
     "GIT_TOKEN", None
 )  # Fill this variable if your upstream repository is private
@@ -82,10 +82,10 @@ confirmer = {}
 
 
 START_IMG_URL = getenv(
-    "START_IMG_URL", "https://graph.org/file/6d6843e7c214305d0abfc-7f1f8acd4c5485c985.jpg"
+    "START_IMG_URL", "https://graph.org/file/cdac7118cbd10898fe72e-0126d13c1e567467ea.jpg"
 )
 PING_IMG_URL = getenv(
-    "PING_IMG_URL", "https://graph.org/file/6d6843e7c214305d0abfc-7f1f8acd4c5485c985.jpg"
+    "PING_IMG_URL", "https://graph.org/file/cdac7118cbd10898fe72e-0126d13c1e567467ea.jpg"
 )
 PLAYLIST_IMG_URL = "https://files.catbox.moe/tny9ug.jpg"
 STATS_IMG_URL = "https://files.catbox.moe/k3e3bg.jpg"
